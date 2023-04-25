@@ -1,6 +1,6 @@
 {
-  "name": "student/puzzlemania",
-  "description": "Continuous Assessment 2",
+  "name": "g2/puzzlemania",
+  "description": "Final Project G2",
   "type": "project",
   "autoload": {
     "psr-4": {
@@ -9,8 +9,16 @@
   },
   "authors": [
     {
-      "name": "Student name",
-      "email": "student.email@students.salle.url.edu"
+      "name": "Marc Geremias Serra",
+      "email": "marc.geremias@students.salle.url.edu"
+    },
+    {
+      "name": "Claudia Lajara Silvosa",
+      "email": "claudia.lajara@salle.url.edu"
+    },
+    {
+      "name": "Pol Valero Arjona",
+      "email": "pol.valero@students.salle.url.edu"
     }
   ],
   "require": {
