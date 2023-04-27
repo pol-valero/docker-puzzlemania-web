@@ -5,11 +5,11 @@ namespace Salle\PuzzleMania\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Salle\PuzzleMania\Repository\Users\UserRepository;
 use Salle\PuzzleMania\Service\ValidatorService;
-use Salle\PuzzleMania\Repository\UserRepository;
 use Slim\Flash\Messages;
-use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
+use Slim\Views\Twig;
 
 class SignInController
 {

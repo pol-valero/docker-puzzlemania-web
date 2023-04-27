@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Salle\PuzzleMania\Repository;
+namespace Salle\PuzzleMania\Repository\Users;
 
 use PDO;
 use Salle\PuzzleMania\Model\User;
