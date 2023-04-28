@@ -17,7 +17,7 @@ final class MySQLRiddleRepository implements RiddleRepository
     }
 
 
-    public function getRiddles()
+    public function getRiddles(): array
     {
         $query = <<<'QUERY'
         SELECT * FROM riddles
@@ -31,20 +31,37 @@ final class MySQLRiddleRepository implements RiddleRepository
         if ($count > 0) {
             $rows = $statement->fetchAll();
             for ($i = 0; $i < $count; $i++) {
-                $riddle = new Riddle(
-                    $rows[$i]['riddle_id'],
-                    $rows[$i]['user_id'],
-                    $rows[$i]['riddle'],
-                    $rows[$i]['answer']
-                );
+                $riddle = Riddle::create()
+                    ->setId(intval($rows[$i]['riddle_id']))
+                    ->setUserId(intval($rows[$i]['user_id']))
+                    ->setRiddle(strval($rows[$i]['riddle']))
+                    ->setAnswer(strval($rows[$i]['answer']));
                 $riddles[] = $riddle;
             }
         }
         return $riddles;
     }
 
-    public function createRiddle(Riddle $riddle)
+    public function createRiddle(Riddle $riddle): bool|string
     {
         // TODO: Implement createRiddle() method.
+        $query = <<<'QUERY'
+        INSERT INTO riddles(user_id, riddle, answer)
+        VALUES(:user_id, :riddle, :answer)
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $userId = $riddle->getUserId();
+        $riddle_text = $riddle->getRiddle();
+        $answer = $riddle->getAnswer();
+
+        $statement->bindParam('user_id', $userId, PDO::PARAM_STR);
+        $statement->bindParam('riddle', $riddle_text, PDO::PARAM_STR);
+        $statement->bindParam('answer', $answer, PDO::PARAM_STR);
+
+        $statement->execute();
+        // Return the id of the riddle created
+        return $this->databaseConnection->lastInsertId();
     }
 }

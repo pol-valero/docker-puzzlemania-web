@@ -11,14 +11,13 @@ class Riddle implements JsonSerializable
     private string $riddle;
     private string $answer;
 
-    public function __construct(int $riddle_id, int $user_id, string $riddle, string $answer)
+    /**
+     * Static constructor / factory
+     */
+    public static function create(): Riddle
     {
-        $this->id = $riddle_id;
-        $this->userId = $user_id;
-        $this->riddle = $riddle;
-        $this->answer = $answer;
+        return new self();
     }
-
     /**
      * Function called when encoded with json_encode
      */
@@ -61,36 +60,42 @@ class Riddle implements JsonSerializable
 
     /**
      * @param int $id
+     * @return Riddle
      */
-    public function setId(int $id): void
+    public function setId(int $id): Riddle
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @param int $userId
+     * @return Riddle
      */
-    public function setUserId(int $userId): void
+    public function setUserId(int $userId): Riddle
     {
         $this->userId = $userId;
+        return $this;
     }
 
     /**
      * @param string $riddle
+     * @return Riddle
      */
-    public function setRiddle(string $riddle): void
+    public function setRiddle(string $riddle): Riddle
     {
         $this->riddle = $riddle;
+        return $this;
     }
 
     /**
      * @param string $answer
+     * @return Riddle
      */
-    public function setAnswer(string $answer): void
+    public function setAnswer(string $answer): Riddle
     {
         $this->answer = $answer;
+        return $this;
     }
-
-
 
 }
