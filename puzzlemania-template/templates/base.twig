@@ -8,8 +8,11 @@
     <title>{% block title %}{% endblock %}</title>
     {% block head %}
     {% endblock %}
+    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/base.css">
+    {% block styles %}{% endblock %}
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <header>{% block header %}{% endblock %}</header>
+    <main>{% block content %}{% endblock %}</main>
   </body>
 </html>

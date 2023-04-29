@@ -2,6 +2,8 @@
 
 {% block title %}Home | PuzzleMania{% endblock %}
 
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
+
 {% block content %}
 <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
 {% endblock %}
