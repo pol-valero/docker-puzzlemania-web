@@ -1,3 +1,14 @@
+@import "base.css";
+
+header {
+    background-color: #2D1E2F;
+    color: white;
+}
+
 main {
-    background-color: #fafafa;
+    background-color: #FFCA3A;
+}
+
+a {
+    color: white;
 }

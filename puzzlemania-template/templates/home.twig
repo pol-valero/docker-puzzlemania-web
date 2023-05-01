@@ -4,6 +4,24 @@
 
 {% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
 
+{% block header %}
+    <nav>
+        <a href="{{ full_url_for('showHome') }}">Home</a>
+        <a href="{{ full_url_for('signUp') }}">Register</a>
+        <a href="{{ full_url_for('signIn') }}">Login</a>
+        <a>Game</a>
+        <a>Teams</a>
+        <a>Profile</a>
+    </nav>
+{% endblock %}
+
 {% block content %}
-<h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
+    <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
+    <p>Welcome to PuzzleMania, the</p>
+    <h2>Features</h2>
+    <ul>
+        <li><p>Game:</p></li>
+        <li><p>Teams:</p></li>
+        <li><p>Profile:</p></li>
+    </ul>
 {% endblock %}
