@@ -6,22 +6,37 @@
 
 {% block header %}
     <nav>
-        <a href="{{ full_url_for('showHome') }}">Home</a>
-        <a href="{{ full_url_for('signUp') }}">Register</a>
-        <a href="{{ full_url_for('signIn') }}">Login</a>
-        <a>Game</a>
-        <a>Teams</a>
-        <a>Profile</a>
+        <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
+        <a id="navbar-game-link" class="navbar-item">Game</a>
+        <a id="navbar-teams-link" class="navbar-item">Teams</a>
+        <a id="navbar-profile-link" class="navbar-item">Profile</a>
     </nav>
+    <div>
+        <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
+        <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
+    </div>
 {% endblock %}
 
 {% block content %}
-    <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
-    <p>Welcome to PuzzleMania, the</p>
-    <h2>Features</h2>
-    <ul>
-        <li><p>Game:</p></li>
-        <li><p>Teams:</p></li>
-        <li><p>Profile:</p></li>
-    </ul>
+    <div id="home-description-block">
+        <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
+        <p>Welcome to PuzzleMania, the</p>
+    </div>
+    <div id="home-features-block">
+        <h2>Features</h2>
+        <ul id="features-list">
+            <li class="features-list-item">
+                <h4>Game</h4>
+                <p>Try to solve 3 riddles and gain points for your team. Beware, you might also lose points...</p>
+            </li>
+            <li class="features-list-item">
+                <h4>Teams</h4>
+                <p>Join a team or access your team's stats</p>
+            </li>
+            <li class="features-list-item">
+                <h4>Profile</h4>
+                <p>Here you can see your user information, like the email, username and picture</p>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

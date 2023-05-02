@@ -5,10 +5,45 @@ header {
     color: white;
 }
 
-main {
-    background-color: #FFCA3A;
-}
-
 a {
     color: white;
+}
+
+#navbar-home-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
+.navbar-item {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#register-button {
+    color: white;
+}
+
+#register-button:hover {
+    color: #FFCA3A;
+}
+
+#features-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0px 20px;
+}
+
+.features-list-item {
+    background-color: #FFCA3A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    width: 30%;
+}
+
+.features-list-item ~ .features-list-item {
+    margin-left: 3%;
 }
