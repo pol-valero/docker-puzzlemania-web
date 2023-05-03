@@ -13,10 +13,6 @@ body {
 
 header {
     height: fit-content;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
     padding: 20px;
 }
 
@@ -40,8 +36,18 @@ a:hover {
     color: #0AD3FF;
 }
 
+p {
+    line-height: 1.25;
+}
+
+.description {
+    line-height: 1.5;
+}
+
 button:hover {
     cursor: pointer;
+    opacity: 0.8;
+    transition: 0.1s;
 }
 
 .primary-button {
@@ -49,6 +55,30 @@ button:hover {
     border-radius: 5px;
     border: none;
     padding: 5px 7px;
+}
+
+.dark-secondary-button {
+    background-color: rgba(255, 255, 240, 15%);
+    border-radius: 5px;
+    border: 2px solid #0AD3FF;
+    padding: 5px 7px;
+    color: #0AD3FF;
+}
+
+.dark-secondary-button:hover {
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+.light-secondary-button {
+    background-color: transparent;
+    border-radius: 5px;
+    border: 2px solid #00b1ff;
+    padding: 5px 7px;
+    color: #00b1ff;
+}
+
+.light-secondary-button:hover {
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
 }
 
 .link-button {
@@ -59,4 +89,5 @@ button:hover {
 
 .link-button:hover {
     color: #FFCA3A;
+    opacity: 1;
 }

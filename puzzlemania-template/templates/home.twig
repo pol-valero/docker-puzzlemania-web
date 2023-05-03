@@ -5,13 +5,13 @@
 {% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
 
 {% block header %}
-    <nav>
+    <nav id="navbar-menu">
         <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
         <a id="navbar-game-link" class="navbar-item">Game</a>
         <a id="navbar-teams-link" class="navbar-item">Teams</a>
         <a id="navbar-profile-link" class="navbar-item">Profile</a>
     </nav>
-    <div>
+    <div id="account-buttons">
         <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
         <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
     </div>
@@ -20,22 +20,54 @@
 {% block content %}
     <div id="home-description-block">
         <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
-        <p>Welcome to PuzzleMania, the</p>
+        <p class="description">
+            Welcome to PuzzleMania, the platform where you can challenge your knowledge and become the best
+            at solving riddles. You can create a team and play with your friends or compete against them
+            from different teams! <b>New:</b> you can now customize your profile by uploading a picture.
+            <br>Most of the features of PuzzleMania require you to be logged into your account. Some features
+            also require you to be part of a team.
+        </p>
     </div>
     <div id="home-features-block">
         <h2>Features</h2>
         <ul id="features-list">
             <li class="features-list-item">
                 <h4>Game</h4>
-                <p>Try to solve 3 riddles and gain points for your team. Beware, you might also lose points...</p>
+                <p>
+                    Try to solve 3 riddles and gain points for your team. If you manage to solve the riddles
+                    before running out of points, these points will also be added to your team's score.
+                </p>
             </li>
             <li class="features-list-item">
                 <h4>Teams</h4>
-                <p>Join a team or access your team's stats</p>
+                <p>
+                    Join or create a team if you don't belong to one already. Here you can also access your
+                    team's stats once you've joined or created one.
+                </p>
             </li>
             <li class="features-list-item">
                 <h4>Profile</h4>
-                <p>Here you can see your user information, like the email, username and picture</p>
+                <p>
+                    Here you can see your personal information, such as the email address and the profile
+                    picture. This also allows you to upload a different profile picture.
+                </p>
+            </li>
+        </ul>
+    </div>
+    <div id="home-other-block">
+        <h2>Other functionalities</h2>
+        <ul id="other-functs-list">
+            <li>
+                <p><b>Register:</b> Create a new account to get access to the features of PuzzleMania.</p>
+            </li>
+            <li>
+                <p><b>Login:</b> Access your PuzzleMania account and start using our features.</p>
+            </li>
+            <li>
+                <p>
+                    <b>Riddles API:</b> Add, modify and delete riddles with our API, or simply list the
+                    current riddles.
+                </p>
             </li>
         </ul>
     </div>
