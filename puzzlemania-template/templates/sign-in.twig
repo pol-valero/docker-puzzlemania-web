@@ -2,6 +2,10 @@
 
 {% block title %}Sign-in | PuzzleMania{% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/account-access.css">
+{% endblock %}
+
 {% block content %}
     {% if notifs is not empty %}
         {% for notif in notifs %}
@@ -10,15 +14,16 @@
     {% endif %}
     <h1>Welcome to PuzzleMania</h1>
     <form data-cy="sign-in" action="{{ formAction }}" method="POST">
-        <input data-cy="sign-in__email" type="text" name="email" placeholder="Enter your email"
+        <input class="form-input" data-cy="sign-in__email" type="text" name="email" placeholder="Enter your email"
                value="{{ formData.email }}">
-        <input data-cy="sign-in__password" type="password" name="password" placeholder="Enter your password">
-        <input data-cy="sign-in__btn" type="submit" value="Sign-in">
-    </form>
+        <input class="form-input" data-cy="sign-in__password" type="password" name="password" placeholder="Enter your password">
+        <input class="light-secondary-button" data-cy="sign-in__btn" type="submit" value="Sign-in">
     {% if formErrors['email'] %}
-        <p data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>
+        <p class="error-message" data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>
     {% endif %}
     {% if formErrors['password'] %}
-        <p data-cy="sign-in__wrongPassword">{{ formErrors['password'] }}</p>
+        <p class="error-message" data-cy="sign-in__wrongPassword">{{ formErrors['password'] }}</p>
     {% endif %}
+    </form>
+    <p>Don't have an account? <a href="{{ full_url_for('signUp') }}">Register</a>.</p>
 {% endblock %}

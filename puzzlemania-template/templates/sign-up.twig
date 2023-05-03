@@ -2,26 +2,31 @@
 
 {% block title %}Sign-up | PuzzleMania{% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/account-access.css">
+{% endblock %}
+
 {% block content %}
     <h1>Sign up here!</h1>
     <form data-cy="sign-up" action="{{ formAction }}" method="POST">
 
         <label> Email </label>
-        <input data-cy="sign-up__email" type="text" name="email" placeholder="Enter your email"
+        <input class="form-input" data-cy="sign-up__email" type="text" name="email" placeholder="Enter your email"
                value="{{ formData.email }}">
         {% if formErrors['email'] %}
-            <p data-cy="sign-up__wrongEmail">{{ formErrors['email'] }}</p>
+            <p class="error-message" data-cy="sign-up__wrongEmail">{{ formErrors['email'] }}</p>
         {% endif %}
 
         <label> Password </label>
-        <input data-cy="sign-up__password" type="password" name="password" placeholder="Enter your password">
+        <input class="form-input" data-cy="sign-up__password" type="password" name="password" placeholder="Enter your password">
         <label> Repeat Password </label>
-        <input data-cy="sign-up__repeatPassword" type="password" name="repeatPassword"
+        <input class="form-input" data-cy="sign-up__repeatPassword" type="password" name="repeatPassword"
                placeholder="Repeat your password">
         {% if formErrors['password'] %}
-            <p data-cy="sign-up__wrongPassword">{{ formErrors['password'] }}</p>
+            <p class="error-message" data-cy="sign-up__wrongPassword">{{ formErrors['password'] }}</p>
         {% endif %}
 
-        <input data-cy="sign-up__btn" type="submit" value="Sign-up">
+        <input class="light-secondary-button" data-cy="sign-up__btn" type="submit" value="Sign-up">
     </form>
+    <p>Already have an account? <a href="{{ full_url_for('signIn') }}">Login</a>.</p>
 {% endblock %}
