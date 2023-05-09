@@ -2,24 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Salle\PuzzleMania\Repository;
+namespace Salle\PuzzleMania\Repository\Users;
 
 use PDO;
 use Salle\PuzzleMania\Model\User;
 
-final class MySQLUserRepository implements UserRepository
-{
+final class MySQLUserRepository implements UserRepository {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
     private PDO $databaseConnection;
 
-    public function __construct(PDO $database)
-    {
+    public function __construct(PDO $database) {
         $this->databaseConnection = $database;
     }
 
-    public function createUser(User $user): void
-    {
+    public function createUser(User $user): void {
         $query = <<<'QUERY'
         INSERT INTO users(email, password, coins, createdAt, updatedAt)
         VALUES(:email, :password, :coins, :createdAt, :updatedAt)
@@ -47,8 +44,7 @@ final class MySQLUserRepository implements UserRepository
         $statement->execute();
     }
 
-    public function getUserByEmail(string $email)
-    {
+    public function getUserByEmail(string $email) {
         $query = <<<'QUERY'
         SELECT * FROM users WHERE email = :email
         QUERY;
@@ -67,8 +63,7 @@ final class MySQLUserRepository implements UserRepository
         return null;
     }
 
-    public function getUserById(int $id)
-    {
+    public function getUserById(int $id) {
         $query = <<<'QUERY'
         SELECT * FROM users WHERE id = :id
         QUERY;
@@ -87,8 +82,7 @@ final class MySQLUserRepository implements UserRepository
         return null;
     }
 
-    public function getAllUsers()
-    {
+    public function getAllUsers() {
         $query = <<<'QUERY'
         SELECT * FROM users
         QUERY;
