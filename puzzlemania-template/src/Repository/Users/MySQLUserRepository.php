@@ -21,11 +21,6 @@ final class MySQLUserRepository implements UserRepository
     public function createUser(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO users(email, password, coins, createdAt, updatedAt)
-        VALUES(:email, :password, :coins, :createdAt, :updatedAt)
-        QUERY;
-
-        $queryWithoutCoins = <<<'QUERY'
         INSERT INTO users(email, password, createdAt, updatedAt)
         VALUES(:email, :password, :createdAt, :updatedAt)
         QUERY;
@@ -34,8 +29,6 @@ final class MySQLUserRepository implements UserRepository
         $password = $user->password();
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
-
-        if (empty($coins)) $query = $queryWithoutCoins;
 
         $statement = $this->databaseConnection->prepare($query);
 

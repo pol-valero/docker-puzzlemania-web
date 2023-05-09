@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
-use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Salle\PuzzleMania\Controller\SignUpController;
+use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
 use Salle\PuzzleMania\Repository\Riddles\MySQLRiddleRepository;
 use Salle\PuzzleMania\Repository\PDOConnectionBuilder;
 use Salle\PuzzleMania\Repository\Users\MySQLUserRepository;
@@ -46,6 +46,10 @@ function addDependencies(ContainerInterface $container): void
 
     $container->set('riddle_repository', function (ContainerInterface $container) {
         return new MySQLRiddleRepository($container->get('db'));
+    });
+
+    $container->set(AuthorizationMiddleware::class, function (ContainerInterface $container) {
+        return new AuthorizationMiddleware($container->get('flash'));
     });
 
     $container->set(

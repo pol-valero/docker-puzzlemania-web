@@ -42,9 +42,8 @@ final class MySQLRiddleRepository implements RiddleRepository
         return $riddles;
     }
 
-    public function createRiddle(Riddle $riddle): bool|string
+    public function createRiddle(Riddle $riddle): void
     {
-        // TODO: Implement createRiddle() method.
         $query = <<<'QUERY'
         INSERT INTO riddles(user_id, riddle, answer)
         VALUES(:user_id, :riddle, :answer)
@@ -56,12 +55,12 @@ final class MySQLRiddleRepository implements RiddleRepository
         $riddle_text = $riddle->getRiddle();
         $answer = $riddle->getAnswer();
 
-        $statement->bindParam('user_id', $userId, PDO::PARAM_STR);
-        $statement->bindParam('riddle', $riddle_text, PDO::PARAM_STR);
-        $statement->bindParam('answer', $answer, PDO::PARAM_STR);
+        $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $statement->bindParam(':riddle', $riddle_text, PDO::PARAM_STR);
+        $statement->bindParam(':answer', $answer, PDO::PARAM_STR);
 
         $statement->execute();
         // Return the id of the riddle created
-        return $this->databaseConnection->lastInsertId();
+        //return $this->databaseConnection->lastInsertId();
     }
 }

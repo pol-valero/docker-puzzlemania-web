@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 use DI\Container;
-use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\RiddlesAPIController;
-use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
+use Salle\PuzzleMania\Controller\SignUpController;
 use Slim\App;
 
 function addRoutes(App $app, Container $container): void

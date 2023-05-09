@@ -33,24 +33,23 @@ class RiddlesAPIController
     public function postRiddle(Request $request, Response $response): Response{
         $data = $request->getParsedBody();
         $errors = $this->validateFields($data);
-
         $response->withHeader('Content-Type', 'application/json');
 
         if($errors['message'] == ''){
             // Create riddle
-            $riddle[] = Riddle::create()
-                ->setRiddle($data['riddle'])
-                ->setAnswer($data['answer'])
-                ->setUserId($data['userId']);
-            $id = $this->riddleRepository->createRiddle($riddle[0]);
-            $riddle[0]->setId($id); // Return riddle with id set
-            $response->getBody()->write(json_encode($riddle));
-            return $response->withStatus(201);
+            $riddle = Riddle::create()
+               ->setRiddle($data['riddle'])
+               ->setAnswer($data['answer'])
+               ->setUserId($data['userId']);
+           $this->riddleRepository->createRiddle($riddle);
+           //$riddle->setId($id); // Return riddle with id set
+           $response->getBody()->write(json_encode($riddle));
+           return $response->withStatus(201);
         }else{
-            // Error return
-            $response->getBody()->write(json_encode($errors));
-            return $response->withStatus(400);
-        }
+           // Error return
+           $response->getBody()->write(json_encode($errors));
+           return $response->withStatus(400);
+       }
     }
 
     private function validateFields($data): array{
