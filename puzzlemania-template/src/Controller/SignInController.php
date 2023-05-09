@@ -35,14 +35,18 @@ class SignInController
 
     public function showHome(Request $request, Response $response): Response
     {
+        $userStatus = [];
+
         if (!isset($_SESSION['user_id'])) {
             $username = "stranger";
         } else {
+            $userStatus['logged'] = true;
             $user = $this->userRepository->getUserById(intval($_SESSION['user_id']));
             $username = explode('@', $user->email)[0];
         }
         return $this->twig->render($response, 'home.twig', [
-            "username" => $username
+            "username" => $username,
+            "userStatus" => $userStatus
         ]);
     }
 
