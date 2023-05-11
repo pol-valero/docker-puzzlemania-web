@@ -20,6 +20,11 @@ class TeamStatsController {
 
     public function showStats(Request $request, Response $response): Response {
 
+        if (!isset($_SESSION['team_id'])) {
+            //TODO: Flash message
+            return $response->withHeader('Location', '/join');
+        }
+
         $teamInfo = $this->teamRepository->getTeamById($_SESSION['team_id']);
 
         $teamMembers = $this->teamRepository->getTeamMembers($_SESSION['team_id']);
