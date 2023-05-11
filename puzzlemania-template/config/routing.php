@@ -9,6 +9,7 @@ use Salle\PuzzleMania\Controller\GameController;
 use Salle\PuzzleMania\Controller\JoinTeamController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
+use Salle\PuzzleMania\Controller\TeamStatsController;
 use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
 use Slim\App;
 
@@ -25,5 +26,10 @@ function addRoutes(App $app, Container $container): void
     $app->get('/game', GameController::class . ':newGame')->setName('newGame');
 
     $app->get('/join', JoinTeamController::class . ':joinTeam')->setName('joinTeam')->add(AuthorizationMiddleware::class);
+
+    $app->get('/team-stats', TeamStatsController::class . ':showStats')->setName('teamStats')->add(AuthorizationMiddleware::class);
+
+    $app->get('/log-out', SignInController::class . ':logOut')->setName('logOut');
+
 
 }

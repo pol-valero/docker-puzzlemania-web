@@ -8,7 +8,7 @@ use Salle\PuzzleMania\Repository\Teams\TeamRepository;
 use Salle\PuzzleMania\Repository\Users\UserRepository;
 use Slim\Views\Twig;
 
-class JoinTeamController {
+class TeamStatsController {
 
     public function __construct(
         private Twig $twig,
@@ -18,9 +18,10 @@ class JoinTeamController {
         //
     }
 
-    public function joinTeam(Request $request, Response $response): Response {
+    public function showStats(Request $request, Response $response): Response {
 
-        return $this->twig->render($response, 'join-team.twig');
+        return $this->twig->render($response, 'team-stats.twig');
 
     }
+
 }

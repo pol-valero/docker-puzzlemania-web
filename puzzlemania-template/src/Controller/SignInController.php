@@ -87,4 +87,11 @@ class SignInController
             ]
         );
     }
+
+    public function logOut(Request $request, Response $response): Response
+    {
+        session_destroy();
+        return $response->withHeader('Location', '/sign-in');
+    }
+
 }

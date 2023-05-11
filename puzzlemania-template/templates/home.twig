@@ -10,6 +10,7 @@
     {% if userStatus['logged'] %}
         <a id="navbar-game-link" class="navbar-item" href="{{ full_url_for('newGame') }}">Game</a>
         <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('joinTeam') }}">Teams</a>
+        <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('teamStats') }}">Team stats</a>
         <a id="navbar-profile-link" class="navbar-item">Profile</a>
     {% endif %}
         <a id="navbar-api-link">Riddles</a>
@@ -17,6 +18,7 @@
     <div id="account-buttons">
         <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
         <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
+        <button onclick="location.href='{{ full_url_for('logOut') }}'" class="primary-button">Logout</button>
     </div>
 {% endblock %}
 
