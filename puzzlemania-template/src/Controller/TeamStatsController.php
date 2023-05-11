@@ -20,8 +20,18 @@ class TeamStatsController {
 
     public function showStats(Request $request, Response $response): Response {
 
-        return $this->twig->render($response, 'team-stats.twig');
+        $teamInfo = $this->teamRepository->getTeamById($_SESSION['team_id']);
 
+        $teamMembers = $this->teamRepository->getTeamMembers($_SESSION['team_id']);
+
+        $i = 0;
+
+        foreach ($teamMembers as $member) {
+            $name[$i] = explode("@", $member['email'])[0];
+            $i++;
+        }
+
+        return $this->twig->render($response, 'team-stats.twig', ['teamInfo' => $teamInfo, 'teamMembers' => $name]);
     }
 
 }

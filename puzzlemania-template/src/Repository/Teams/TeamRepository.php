@@ -13,4 +13,6 @@ interface TeamRepository {
     public function getAllTeams();
 
     public function getIncompleteTeams();
+
+    public function getTeamMembers(int $teamId);
 }

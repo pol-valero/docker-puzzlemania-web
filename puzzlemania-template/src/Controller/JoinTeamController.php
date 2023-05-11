@@ -77,6 +77,8 @@ class JoinTeamController {
 
         $teamId = (int)$teamId;
 
+        $_SESSION['team_id'] = $teamId;
+
         $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 
         $createdAt = date_create_from_format('Y-m-d H:i:s', $userInfo->createdAt);

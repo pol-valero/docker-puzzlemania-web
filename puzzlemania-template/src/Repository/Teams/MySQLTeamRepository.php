@@ -98,4 +98,25 @@ final class MySQLTeamRepository implements TeamRepository {
         return null;
 
     }
+
+    public function getTeamMembers(int $teamId) {
+        $query = <<<'QUERY'
+        SELECT email FROM users WHERE team = :teamId
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam('teamId', $teamId, PDO::PARAM_INT);
+
+        $statement->execute();
+
+        $rows = $statement->fetchAll();
+
+        $count = $statement->rowCount();
+        if ($count > 0) {
+            return $rows;
+        }
+
+        return null;
+    }
 }
