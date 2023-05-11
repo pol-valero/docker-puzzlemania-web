@@ -24,7 +24,7 @@ function addRoutes(App $app, Container $container): void
     $app->post('/sign-up', SignUpController::class . ':signUp');
     /* GAME */
     $app->get('/game', GameController::class . ':newGame')->setName('newGame');
-
+    /* TEAMS */
     $app->get('/join', JoinTeamController::class . ':joinTeam')->setName('joinTeam')->add(AuthorizationMiddleware::class);
 
     $app->get('/team-stats', TeamStatsController::class . ':showStats')->setName('teamStats')->add(AuthorizationMiddleware::class);
@@ -32,4 +32,6 @@ function addRoutes(App $app, Container $container): void
     $app->get('/log-out', SignInController::class . ':logOut')->setName('logOut');
 
     $app->post('/join', JoinTeamController::class . ':createTeam');
+
+    $app->get('/invite/join/{id:.*}', JoinTeamController::class . ':addUserToTeam')->setName('addUserToTeam');
 }

@@ -70,4 +70,28 @@ class JoinTeamController {
         return $response->withHeader('Location', '/team-stats');
 
     }
+
+    public function addUserToTeam(Request $request, Response $response): Response{
+
+        $teamId = $request->getAttribute('id');
+
+        $teamId = (int)$teamId;
+
+        $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
+
+        $createdAt = date_create_from_format('Y-m-d H:i:s', $userInfo->createdAt);
+
+        $user = User::create();
+        $user->setId($userInfo->id);
+        $user->setEmail($userInfo->email);
+        $user->setPassword($userInfo->password);
+        $user->setTeam($teamId);
+        $user->setCreatedAt($createdAt);
+        $user->setUpdatedAt(new DateTime());
+
+        $this->userRepository->updateUser($user);
+
+        return $response->withHeader('Location', '/team-stats');
+    }
+
 }

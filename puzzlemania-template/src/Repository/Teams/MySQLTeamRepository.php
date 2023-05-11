@@ -80,7 +80,7 @@ final class MySQLTeamRepository implements TeamRepository {
 
     public function getIncompleteTeams() {
         $query = <<<'QUERY'
-        SELECT name, numMembers FROM teams WHERE numMembers <= 1
+        SELECT id, name, numMembers FROM teams WHERE numMembers <= 1
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);

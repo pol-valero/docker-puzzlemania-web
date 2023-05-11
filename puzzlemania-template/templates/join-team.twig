@@ -46,10 +46,8 @@
         <ul>
             {% for incompleteTeam in incompleteTeams %}
                 <li>
-                    <form method="POST">
-                        <input type="submit" class="dark-button" value="{{ incompleteTeam['name'] }}">
-                        <label>Number of members: {{ incompleteTeam['numMembers'] }}</label>
-                    </form>
+                    <button onclick="location.href='/invite/join/{{ incompleteTeam['id'] }}'" class="dark-button" value="{{ incompleteTeam['id'] }}">{{ incompleteTeam['name'] }}</button>
+                    <label>Number of members: {{ incompleteTeam['numMembers'] }}</label>
                 </li>
             {% endfor %}
         </ul>
