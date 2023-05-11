@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+
+{% block title %}Profile | PuzzleMania{% endblock %}
+
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/profile.css">{% endblock %}
+
+{% block content %}
+    <h1 data-cy="profile">Here the user can see the profile information.</h1>
+
+    <li class="features-list-item">
+        <form action="{{ url_for('upload') }}"
+              enctype="multipart/form-data"
+              method="POST">
+
+
+            <p>{{ email }}</p>
+            <img src="{{ profile_picture }}" alt="Profile Picture" width="200" height="200">
+
+
+            <input type="file" name="files[]" multiple>
+            <input type="submit" value="Upload">
+        </form>
+    </li>
+
+
+
+
+    {% if errors is defined %}
+        <ol>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+
+{% endblock %}

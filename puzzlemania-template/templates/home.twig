@@ -10,7 +10,7 @@
     {% if userStatus['logged'] %}
         <a id="navbar-game-link" class="navbar-item">Game</a>
         <a id="navbar-teams-link" class="navbar-item">Teams</a>
-        <a id="navbar-profile-link" class="navbar-item">Profile</a>
+        <a id="navbar-profile-link" class="navbar-item" href="{{ full_url_for('profile') }}">Profile</a>
     {% endif %}
         <a id="navbar-api-link">Riddles</a>
     </nav>

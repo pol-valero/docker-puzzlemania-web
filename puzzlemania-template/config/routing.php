@@ -5,6 +5,7 @@ declare(strict_types=1);
 use DI\Container;
 use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\API\UsersAPIController;
+use Salle\PuzzleMania\Controller\FileController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Slim\App;
@@ -16,4 +17,7 @@ function addRoutes(App $app, Container $container): void
     $app->post('/sign-in', SignInController::class . ':signIn');
     $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
     $app->post('/sign-up', SignUpController::class . ':signUp');
+
+    $app->get('/profile', FileController::class . ':showProfileFormAction')->setName('profile');
+    $app->post('/profile', FileController::class . ':uploadFileAction')->setName('upload');
 }

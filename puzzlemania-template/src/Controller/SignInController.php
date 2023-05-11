@@ -44,10 +44,10 @@ class SignInController
             $user = $this->userRepository->getUserById(intval($_SESSION['user_id']));
             $username = explode('@', $user->email)[0];
         }
-        return $this->twig->render($response, 'home.twig', [
-            "username" => $username,
-            "userStatus" => $userStatus
-        ]);
+            return $this->twig->render($response, 'home.twig', [
+                "username" => $username,
+                "userStatus" => $userStatus
+            ]);
     }
 
     public function signIn(Request $request, Response $response): Response

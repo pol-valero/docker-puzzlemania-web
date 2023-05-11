@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Psr\Container\ContainerInterface;
 use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\API\UsersAPIController;
+use Salle\PuzzleMania\Controller\FileController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Salle\PuzzleMania\Repository\MySQLRiddleRepository;
@@ -57,4 +58,12 @@ function addDependencies(ContainerInterface $container): void
             return new SignUpController($c->get('view'), $c->get('user_repository'));
         }
     );
+
+    $container->set(
+        FileController::class,
+        function (ContainerInterface $c) {
+            return new FileController($c->get('view'), $c->get('user_repository'));
+        }
+    );
+
 }
