@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\GameController;
+use Salle\PuzzleMania\Controller\JoinTeamController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Repository\MySQLRiddleRepository;
@@ -68,6 +69,13 @@ function addDependencies(ContainerInterface $container): void
         GameController::class,
         function (ContainerInterface $c) {
             return new GameController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
+        }
+    );
+
+    $container->set(
+       JoinTeamController::class,
+        function (ContainerInterface $c) {
+            return new JoinTeamController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
         }
     );
 }

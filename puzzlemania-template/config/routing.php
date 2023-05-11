@@ -6,8 +6,10 @@ use DI\Container;
 use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\GameController;
+use Salle\PuzzleMania\Controller\JoinTeamController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
+use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
 use Slim\App;
 
 function addRoutes(App $app, Container $container): void
@@ -21,4 +23,7 @@ function addRoutes(App $app, Container $container): void
     $app->post('/sign-up', SignUpController::class . ':signUp');
     /* GAME */
     $app->get('/game', GameController::class . ':newGame')->setName('newGame');
+
+    $app->get('/join', JoinTeamController::class . ':joinTeam')->setName('joinTeam')->add(AuthorizationMiddleware::class);
+
 }
