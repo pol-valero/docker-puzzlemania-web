@@ -15,18 +15,22 @@ class User implements JsonSerializable {
     private Datetime $createdAt;
     private Datetime $updatedAt;
 
-//    public function __construct(
-//        string   $email,
-//        string   $password,
-//        Datetime $createdAt,
-//        Datetime $updatedAt
-//    )
-//    {
-//        $this->email = $email;
-//        $this->password = $password;
-//        $this->createdAt = $createdAt;
-//        $this->updatedAt = $updatedAt;
-//    }
+public function __construct(
+         int $id,
+         string $email,
+         string $password,
+         int $team,
+         Datetime $createdAt,
+         Datetime $updatedAt
+   )
+{
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+        $this->team = $team;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+    }
 
     /**
      * Static constructor / factory
@@ -68,6 +72,14 @@ class User implements JsonSerializable {
         }
 
         return null;
+    }
+
+    public function getTeam() {
+        return $this->team;
+    }
+
+    public function setTeam($teamId) {
+        $this->team = $teamId;
     }
 
     /**

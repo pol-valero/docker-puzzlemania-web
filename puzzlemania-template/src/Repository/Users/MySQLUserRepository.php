@@ -44,6 +44,27 @@ final class MySQLUserRepository implements UserRepository {
         $statement->execute();
     }
 
+    public function updateUser(User $user) {
+
+        $query = <<<'QUERY'
+        UPDATE users SET team = :team, updatedAt = :updatedAt WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+
+        $team = $user->getTeam();
+
+        $statement->bindParam('team', $team, PDO::PARAM_INT);
+        $dateTime = $user->updatedAt()->format(self::DATE_FORMAT);
+        $statement->bindParam('updatedAt', $dateTime, PDO::PARAM_STR);
+        $id = $user->getId();
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+
+        $statement->execute();
+
+    }
+
     public function getUserByEmail(string $email) {
         $query = <<<'QUERY'
         SELECT * FROM users WHERE email = :email

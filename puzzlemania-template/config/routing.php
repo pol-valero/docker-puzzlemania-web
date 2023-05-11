@@ -31,5 +31,5 @@ function addRoutes(App $app, Container $container): void
 
     $app->get('/log-out', SignInController::class . ':logOut')->setName('logOut');
 
-
+    $app->post('/join', JoinTeamController::class . ':createTeam');
 }
