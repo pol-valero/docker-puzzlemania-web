@@ -8,6 +8,7 @@ use Salle\PuzzleMania\Model\Riddle;
 
 interface RiddleRepository
 {
-    public function getRiddles();
+    public function getRiddles() : array;
     public function createRiddle(Riddle $riddle);
+    public function getRiddleById(int $id) : ?Riddle;
 }

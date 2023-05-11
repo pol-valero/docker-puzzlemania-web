@@ -37,12 +37,12 @@ class RiddlesAPIController
 
         if($errors['message'] == ''){
             // Create riddle
-            $riddle = Riddle::create()
+            $riddle[0] = Riddle::create()
                ->setRiddle($data['riddle'])
                ->setAnswer($data['answer'])
                ->setUserId($data['userId']);
-           $this->riddleRepository->createRiddle($riddle);
-           //$riddle->setId($id); // Return riddle with id set
+           $id = $this->riddleRepository->createRiddle($riddle[0]);
+           $riddle[0]->setId($id); // Return riddle with id set
            $response->getBody()->write(json_encode($riddle));
            return $response->withStatus(201);
         }else{
@@ -52,12 +52,24 @@ class RiddlesAPIController
        }
     }
 
+    public function getRiddle(Request $request, Response $response, array $args): Response{
+        $id = intval($args['id']);
+        $riddle = $this->riddleRepository->getRiddleById($id);
+        if(!$riddle){
+            $response->getBody()->write(json_encode(['message' => "Riddle with id $id does not exist"]));
+            return $response->withStatus(404);
+        }else{
+            $response->getBody()->write(json_encode($riddle));
+            return $response->withStatus(200);
+        }
+    }
+
     private function validateFields($data): array{
         $errors=['message' => ''];
         // TODO: Make more checks and errors possibilities
 
         // Check if userId exists
-        if(!$this->userRepository->getUserById($data['userId'])){
+        if(!$this->userRepository->getUserById(intval($data['userId']))){
             $errors['message'] .= "This 'userId' doesn't exist";
         }
 

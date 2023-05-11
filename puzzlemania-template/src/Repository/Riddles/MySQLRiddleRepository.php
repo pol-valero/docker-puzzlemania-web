@@ -42,18 +42,41 @@ final class MySQLRiddleRepository implements RiddleRepository
         return $riddles;
     }
 
-    public function createRiddle(Riddle $riddle): void
+    public function getRiddleById(int $id): ?Riddle
+    {
+        $query = <<<'QUERY'
+        SELECT * FROM riddles WHERE riddle_id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+
+        $count = $statement->rowCount();
+        if ($count > 0) {
+            $row = $statement->fetch(PDO::FETCH_OBJ);
+            $riddle = Riddle::create()
+                ->setId(intval($row->riddle_id))
+                ->setUserId(intval($row->user_id))
+                ->setRiddle(strval($row->riddle))
+                ->setAnswer(strval($row->answer));
+            return $riddle;
+        }
+        return null;
+    }
+
+    public function createRiddle(Riddle $riddle): string|bool
     {
         $query = <<<'QUERY'
         INSERT INTO riddles(user_id, riddle, answer)
         VALUES(:user_id, :riddle, :answer)
         QUERY;
 
-        $statement = $this->databaseConnection->prepare($query);
-
         $userId = $riddle->getUserId();
         $riddle_text = $riddle->getRiddle();
         $answer = $riddle->getAnswer();
+
+        $statement = $this->databaseConnection->prepare($query);
 
         $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $statement->bindParam(':riddle', $riddle_text, PDO::PARAM_STR);
@@ -61,6 +84,6 @@ final class MySQLRiddleRepository implements RiddleRepository
 
         $statement->execute();
         // Return the id of the riddle created
-        //return $this->databaseConnection->lastInsertId();
+        return $this->databaseConnection->lastInsertId();
     }
 }
