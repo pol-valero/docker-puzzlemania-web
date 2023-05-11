@@ -15,7 +15,7 @@ class User implements JsonSerializable {
     private Datetime $createdAt;
     private Datetime $updatedAt;
 
-public function __construct(
+/*public function __construct(
          int $id,
          string $email,
          string $password,
@@ -31,6 +31,7 @@ public function __construct(
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
+*/
 
     /**
      * Static constructor / factory

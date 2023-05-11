@@ -23,7 +23,22 @@ class JoinTeamController {
 
     public function joinTeam(Request $request, Response $response): Response {
 
-        return $this->twig->render($response, 'join-team.twig');
+        $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
+
+        if(isset($userInfo->team)) {
+           return $response->withHeader('Location', '/team-stats');
+        }
+
+        $inclompleteTeams = $this->teamRepository->getIncompleteTeams();
+
+
+        if($inclompleteTeams == null) {
+            $showIncompleteTeams = false;
+        } else {
+            $showIncompleteTeams = true;
+        }
+
+        return $this->twig->render($response, 'join-team.twig', ['incompleteTeams' => $inclompleteTeams, 'showIncompleteTeams' => $showIncompleteTeams]);
 
     }
 
@@ -38,7 +53,15 @@ class JoinTeamController {
 
         $createdAt = date_create_from_format('Y-m-d H:i:s', $userInfo->createdAt);
 
-        $user = new User ($userInfo->id, $userInfo->email, $userInfo->password, $teamId, $createdAt, new DateTime());
+        $user = User::create();
+        $user->setId($userInfo->id);
+        $user->setEmail($userInfo->email);
+        $user->setPassword($userInfo->password);
+        $user->setTeam($teamId);
+        $user->setCreatedAt($createdAt);
+        $user->setUpdatedAt(new DateTime());
+
+        //$user = new User ($userInfo->id, $userInfo->email, $userInfo->password, $teamId, $createdAt, new DateTime());
         //$user->setTeam($teamId);
         //$user->setUpdatedAt(new DateTime());
 

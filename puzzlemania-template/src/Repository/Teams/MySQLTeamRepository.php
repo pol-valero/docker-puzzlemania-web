@@ -77,4 +77,25 @@ final class MySQLTeamRepository implements TeamRepository {
     public function getAllTeams() {
         // TODO: Implement getAllTeams() method.
     }
+
+    public function getIncompleteTeams() {
+        $query = <<<'QUERY'
+        SELECT name, numMembers FROM teams WHERE numMembers <= 1
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->execute();
+
+        $rows = $statement->fetchAll();
+
+        $count = $statement->rowCount();
+
+       if ($count > 0) {
+            return $rows;
+        }
+
+        return null;
+
+    }
 }
