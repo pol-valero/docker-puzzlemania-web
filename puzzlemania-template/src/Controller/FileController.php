@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 namespace Salle\PuzzleMania\Controller;
-use Cassandra\Uuid;
-use Psr\Http\Message\UploadedFileInterface;
 use Salle\PuzzleMania\Repository\UserRepository;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
@@ -20,8 +18,10 @@ final class FileController
 
     private const INVALID_EXTENSION_ERROR = "The received file extension '%s' is not valid";
 
+    private const INVALID_SIZE_ERROR = "The received file size is not valid, it must be less than 1MB";
+
     // We use this const to define the extensions that we are going to allow
-    private const ALLOWED_EXTENSIONS = ['jpg', 'png', 'pdf'];
+    private const ALLOWED_EXTENSIONS = ['jpg', 'png'];
 
     public function __construct(
         private Twig $twig,
@@ -44,7 +44,7 @@ final class FileController
                 'upload.twig',
                 [
                     'email' => $this->userRepository->getUserById(intval($_SESSION['user_id']))->email,
-                    'profile_picture' => "/uploads/AAA645cba3c9188b8.70400452.jpg"
+                    'profile_picture' => "/uploads/" . $this->userRepository->getUserById(intval($_SESSION['user_id']))->profile_picture
                 ]
             );
         }
@@ -60,43 +60,54 @@ final class FileController
                 ->withStatus(302);
         }
 
-        $uploadedFiles = $request->getUploadedFiles();
-        // TODO: Check only for 1 file
+        $uploadedFile = $request->getUploadedFiles()['files'];
+
         $errors = [];
 
-        /** @var UploadedFileInterface $uploadedFile */
-        foreach ($uploadedFiles['files'] as $uploadedFile) {
-            if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
-                $errors[] = sprintf(
-                    self::UNEXPECTED_ERROR,
-                    $uploadedFile->getClientFilename()
-                );
-                continue;
-            }
+        // Check if there is no error with the upload
+        if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+            $errors[] = sprintf(
+                self::UNEXPECTED_ERROR,
+                $uploadedFile->getClientFilename()
+            );
+        }
 
-            $name = $uploadedFile->getClientFilename();
+        $name = $uploadedFile->getClientFilename();
+        $fileInfo = pathinfo($name);
+        $format = $fileInfo['extension'];
 
-            $fileInfo = pathinfo($name);
+        /*
+        // TODO: How can I check if the image size is not bigger than 1MB
+        // Check if the image size is less than 1MB
+        if ($uploadedFile->getSize() > 1024 * 1024) {
+            $errors[] = self::INVALID_SIZE_ERROR;
+        }*/
 
-            $format = $fileInfo['extension'];
+        // Check if the image dimensions are less than 400x400
+        $imageInfo = getimagesize($uploadedFile->getStream()->getMetadata('uri'));
+        if ($imageInfo[0] > 400 || $imageInfo[1] > 400) {
+            $errors[] = "The image dimensions are not valid";
+        }
 
-            if (!$this->isValidFormat($format)) {
-                $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
-                continue;
-            }
+        // Check if the image format is valid
+        if (!$this->isValidFormat($format)) {
+            $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+        }
 
-            // We should generate a custom name here instead of using the one coming form the form
-            $uniqueName = uniqid('AAA', true) . '.' . $format;
-
+        // If there are no errors, upload the file, otherwise, show the errors
+        if (empty($errors)) {
+            $uniqueName = uniqid('', true) . '.' . $format;
             $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $uniqueName );
+            $this->userRepository->setProfilePicture($_SESSION['user_id'], $uniqueName);
         }
 
         return $this->twig->render(
             $response,
             'upload.twig',
             [
+                'errors' => $errors,
                 'email' => $this->userRepository->getUserById(intval($_SESSION['user_id']))->email,
-                'profile_picture' => "/uploads/AAA645cba3c9188b8.70400452.jpg"
+                'profile_picture' => "/uploads/" . $this->userRepository->getUserById(intval($_SESSION['user_id']))->profile_picture
             ]
         );
     }

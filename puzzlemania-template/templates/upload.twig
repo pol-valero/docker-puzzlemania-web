@@ -13,25 +13,20 @@
               method="POST">
 
 
-            <p>{{ email }}</p>
+            <input type="text" disabled value="{{ email }}"><br><br>
             <img src="{{ profile_picture }}" alt="Profile Picture" width="200" height="200">
 
 
-            <input type="file" name="files[]" multiple>
+            <input type="file" name="files">
             <input type="submit" value="Upload">
+
+            {% if errors is defined %}
+                <ol>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
         </form>
     </li>
-
-
-
-
-    {% if errors is defined %}
-        <ol>
-            {% for error in errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ol>
-    {% endif %}
-
-
 {% endblock %}

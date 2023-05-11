@@ -15,6 +15,7 @@ class User implements JsonSerializable
     private string $password;
     private Datetime $createdAt;
     private Datetime $updatedAt;
+    private string $profilePicture;
 
 //    public function __construct(
 //        string   $email,
@@ -114,6 +115,16 @@ class User implements JsonSerializable
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture(string $profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
 
 
 
