@@ -1,0 +1,12 @@
+{% extends "base.twig" %}
+
+{% block title %}Game | PuzzleMania{% endblock %}
+
+{% block content %}
+    <h1>Riddle #{{ data.riddleNum }}</h1>
+    <p>{{ data.riddle }}</p>
+    <form action="{{ formAction }}" method="POST">
+        <input type="text" placeholder="Answer">
+        <input type="submit" value="Next">
+    </form>
+{% endblock %}

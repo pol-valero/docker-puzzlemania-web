@@ -8,6 +8,8 @@ use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\GameController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Salle\PuzzleMania\Controller\SignUpController;
+use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
+use Salle\PuzzleMania\Repository\Games\MySQLGameRepository;
 use Salle\PuzzleMania\Repository\MySQLRiddleRepository;
 use Salle\PuzzleMania\Repository\PDOConnectionBuilder;
 use Salle\PuzzleMania\Repository\Teams\MySQLTeamRepository;
@@ -15,8 +17,7 @@ use Salle\PuzzleMania\Repository\Users\MySQLUserRepository;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
-function addDependencies(ContainerInterface $container): void
-{
+function addDependencies(ContainerInterface $container): void {
     $container->set(
         'view',
         function () {
@@ -42,12 +43,20 @@ function addDependencies(ContainerInterface $container): void
         }
     );
 
+    $container->set(AuthorizationMiddleware::class, function (ContainerInterface $container) {
+        return new AuthorizationMiddleware($container->get('flash'));
+    });
+
     $container->set('user_repository', function (ContainerInterface $container) {
         return new MySQLUserRepository($container->get('db'));
     });
 
     $container->set('team_repository', function (ContainerInterface $container) {
         return new MySQLTeamRepository($container->get('db'));
+    });
+
+    $container->set('game_repository', function (ContainerInterface $container) {
+        return new MySQLGameRepository($container->get('db'));
     });
 
     $container->set(
@@ -67,7 +76,10 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         GameController::class,
         function (ContainerInterface $c) {
-            return new GameController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
+            return new GameController(
+                $c->get('view'), $c->get('user_repository'),
+                $c->get('team_repository'), $c->get('game_repository')
+            );
         }
     );
 }

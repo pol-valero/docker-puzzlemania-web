@@ -39,3 +39,19 @@ CREATE TABLE `teams`
     `updatedAt`     DATETIME        NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `games`
+(
+    `id`            INT         NOT NULL AUTO_INCREMENT,
+    `user_id`       INT         NOT NULL,
+    `score`         INT         NOT NULL,
+    `riddle1_id`    INT         NOT NULL,
+    `riddle2_id`    INT         NOT NULL,
+    `riddle3_id`    INT         NOT NULL,
+    `createdAt`     DATETIME    NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (riddle1_id) REFERENCES riddles (riddle_id),
+    FOREIGN KEY (riddle2_id) REFERENCES riddles (riddle_id),
+    FOREIGN KEY (riddle3_id) REFERENCES riddles (riddle_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

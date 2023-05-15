@@ -13,12 +13,40 @@ use Slim\App;
 function addRoutes(App $app, Container $container): void
 {
     /* HOME */
-    $app->get('/', SignInController::class . ':showHome')->setName('showHome');
+    $app->get(
+        '/', SignInController::class . ':showHome'
+    )->setName('showHome');
+
     /* LOGIN AND REGISTER */
-    $app->get('/sign-in', SignInController::class . ':showSignInForm')->setName('signIn');
-    $app->post('/sign-in', SignInController::class . ':signIn');
-    $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
-    $app->post('/sign-up', SignUpController::class . ':signUp');
+    $app->get(
+        '/sign-in', SignInController::class . ':showSignInForm'
+    )->setName('signIn');
+    $app->post(
+        '/sign-in', SignInController::class . ':signIn'
+    );
+    $app->get(
+        '/sign-up', SignUpController::class . ':showSignUpForm'
+    )->setName('signUp');
+    $app->post(
+        '/sign-up', SignUpController::class . ':signUp'
+    );
+
     /* GAME */
-    $app->get('/game', GameController::class . ':newGame')->setName('newGame');
+    $app->get(
+        '/game', GameController::class . ':newGame'
+    )->setName('newGame');
+
+    $app->post(
+        '/game', GameController::class . ':startGame'
+    )->setName('startGame');
+
+    $app->get(
+        '/game/{\d}/riddles/{\d}',
+        GameController::class . ':nextRiddle'
+    )->setName('nextRiddle');
+
+    $app->post(
+        '/game/{gameId}/riddles/{riddleId}',
+        GameController::class . ':checkRiddleAnswer'
+    )->setName('checkRiddleAnswer');
 }
