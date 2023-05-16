@@ -23,6 +23,7 @@ class RiddlesAPIController
 
     }
 
+    // GET /api/riddle
     public function getRiddles(Request $request, Response $response): Response{
         $riddles = $this->riddleRepository->getRiddles();
         $response->getBody()->write(json_encode($riddles));
@@ -30,19 +31,20 @@ class RiddlesAPIController
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    // POST /api/riddle
     public function postRiddle(Request $request, Response $response): Response{
         $data = $request->getParsedBody();
-        $errors = $this->validateFields($data);
+        $errors = $this->validatePostFields($data);
         $response->withHeader('Content-Type', 'application/json');
 
         if($errors['message'] == ''){
             // Create riddle
-            $riddle[0] = Riddle::create()
+            $riddle = Riddle::create()
                ->setRiddle($data['riddle'])
                ->setAnswer($data['answer'])
                ->setUserId($data['userId']);
-           $id = $this->riddleRepository->createRiddle($riddle[0]);
-           $riddle[0]->setId($id); // Return riddle with id set
+           $id = $this->riddleRepository->createRiddle($riddle);
+           $riddle->setId($id); // Return riddle with id set
            $response->getBody()->write(json_encode($riddle));
            return $response->withStatus(201);
         }else{
@@ -52,6 +54,7 @@ class RiddlesAPIController
        }
     }
 
+    // GET /api/riddle/{id}
     public function getRiddle(Request $request, Response $response, array $args): Response{
         $id = intval($args['id']);
         $riddle = $this->riddleRepository->getRiddleById($id);
@@ -64,9 +67,58 @@ class RiddlesAPIController
         }
     }
 
-    private function validateFields($data): array{
+    // PUT /api/riddle/{id}
+    public function putRiddle(Request $request, Response $response, array $args): Response{
+        $id = intval($args['id']);
+        $data = $request->getParsedBody();
+
+        if(!$this->riddleRepository->getRiddleById($id)){
+            $response->getBody()->write(json_encode(['message' => "Riddle with id $id does not exist"]));
+            return $response->withStatus(404);
+        }
+
+        $errors = $this->validatePutFields($data);
+
+        if($errors['message'] == ''){
+            // Update riddle
+            $riddle = Riddle::create()
+               ->setId($id)
+               ->setRiddle($data['riddle'])
+               ->setAnswer($data['answer']);
+           $this->riddleRepository->updateRiddle($riddle);
+           $response->getBody()->write(json_encode($riddle));
+           return $response->withStatus(200);
+        }else{
+              // Error return
+              $response->getBody()->write(json_encode($errors));
+              return $response->withStatus(400);
+        }
+    }
+
+    // DELETE /api/riddle/{id}
+    public function deleteRiddle(Request $request, Response $response, array $args): Response{
+        $id = intval($args['id']);
+        if(!$this->riddleRepository->getRiddleById($id)){
+            $response->getBody()->write(json_encode(['message' => "Riddle with id $id does not exist"]));
+            return $response->withStatus(404);
+        }else{
+            $this->riddleRepository->deleteRiddle($id);
+            return $response->withStatus(200);
+        }
+    }
+
+    private function validatePutFields($data): array{
+        // Check if riddle and answer exists
         $errors=['message' => ''];
-        // TODO: Make more checks and errors possibilities
+        if(!isset($data['riddle']) || !isset($data['answer'])){
+            $errors['message'] = "The riddle and/or answer cannot be empty";
+        }
+        return $errors;
+    }
+
+
+    private function validatePostFields($data): array{
+        $errors=['message' => ''];
 
         // Check if userId exists
         if(!$this->userRepository->getUserById(intval($data['userId']))){

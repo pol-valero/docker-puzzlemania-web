@@ -19,5 +19,7 @@ function addRoutes(App $app, Container $container): void
     $app->get('/api/riddle', RiddlesAPIController::class . ':getRiddles');
     $app->post('/api/riddle', RiddlesAPIController::class . ':postRiddle');
     $app->get('/api/riddle/{id}', RiddlesAPIController::class . ':getRiddle');
+    $app->put('/api/riddle/{id}', RiddlesAPIController::class . ':putRiddle');
+    $app->delete('/api/riddle/{id}', RiddlesAPIController::class . ':deleteRiddle');
 
 }
