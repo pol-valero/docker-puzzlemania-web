@@ -2,11 +2,8 @@
 
 {% block title %}Riddles | PuzzleMania{% endblock %}
 
-{#
-{% block styles %}
-    <link rel="stylesheet" href="../public/assets/css/riddles.css">
-{% endblock %}
-#}
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/riddles.css">{% endblock %}
+
 {% block content %}
 
     {% if riddleslist == true %}
@@ -25,14 +22,15 @@
         </riddles-empty>
     {% else %}
         <div id="riddles-list">
-            <ul>
+            <ul id="riddles-unordered-list">
                 {% for riddle in riddles %}
-                    <li>{{ riddle.riddle }}</li>
-                    <li>{{ riddle.answer }}</li>
-                    <br><br>
+                    <li class="riddles-list-item">
+                        <p class="riddles-list-item-question">Question: {{ riddle.riddle }}</p>
+                        <p class="riddles-list-item-answer">Answer: {{ riddle.answer }}</p>
+                    </li>
                 {% endfor %}
             </ul>
-        <div>
+        </div>
     {% endif %}
 
 {% endblock %}
