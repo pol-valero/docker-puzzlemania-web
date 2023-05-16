@@ -168,8 +168,12 @@ class RiddlesAPIController
         $errors=['message' => ''];
 
         // Check if userId exists
-        if(!$this->userRepository->getUserById(intval($data['userId']))){
-            $errors['message'] .= "This 'userId' doesn't exist";
+        if(!isset($data['userId'])){
+            $errors['message'] .= " 'userId' key missing";
+        }else{
+            if(!$this->userRepository->getUserById(intval($data['userId']))){
+                $errors['message'] .= "This 'userId' doesn't exist";
+            }
         }
 
         // Check if $data['riddle'], $data['answer'] and $data['userId'] exists
