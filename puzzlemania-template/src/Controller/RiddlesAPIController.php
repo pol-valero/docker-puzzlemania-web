@@ -23,6 +23,53 @@ class RiddlesAPIController
 
     }
 
+    // GET /riddle
+    public function showRiddles(Request $request, Response $response): Response
+    {
+        $riddles = $this->riddleRepository->getRiddles();
+        return $this->twig->render(
+            $response,
+            'riddles.twig',
+            [
+                'riddleslist' => true,
+                'riddleExists' => true,
+                'riddles' => $riddles
+            ]
+        );
+    }
+
+    // GET /riddle/{id}
+    public function showRiddle(Request $request, Response $response, array $args): Response
+    {
+        $id = intval($args['id']);
+        $riddle = $this->riddleRepository->getRiddleById($id);
+        if($riddle) {$riddle = [$riddle];} // Used to pass an array to twig and reuse the same template
+
+        if(!$riddle){
+            return $this->twig->render(
+                $response,
+                'riddles.twig',
+                [
+                    'riddleslist' => false,
+                    'riddles' => false,
+                    'riddleExists' => false
+                ]
+            );
+        }else{
+            return $this->twig->render(
+                $response,
+                'riddles.twig',
+
+                [
+                    'riddleslist' => false,
+                    'riddleExists' => true,
+                    'riddles' => $riddle
+                ]
+            );
+        }
+    }
+
+
     // GET /api/riddle
     public function getRiddles(Request $request, Response $response): Response{
         $riddles = $this->riddleRepository->getRiddles();

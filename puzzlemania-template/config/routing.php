@@ -16,6 +16,10 @@ function addRoutes(App $app, Container $container): void
     $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
     $app->post('/sign-up', SignUpController::class . ':signUp');
 
+
+    $app->get('/riddles', RiddlesAPIController::class . ':showRiddles');
+    $app->get('/riddles/{id}', RiddlesAPIController::class . ':showRiddle');
+
     $app->get('/api/riddle', RiddlesAPIController::class . ':getRiddles');
     $app->post('/api/riddle', RiddlesAPIController::class . ':postRiddle');
     $app->get('/api/riddle/{id}', RiddlesAPIController::class . ':getRiddle');
