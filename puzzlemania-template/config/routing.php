@@ -41,7 +41,7 @@ function addRoutes(App $app, Container $container): void
     )->setName('startGame');
 
     $app->get(
-        '/game/{\d}/riddles/{\d}',
+        '/game/{gameId}/riddles/{riddleId}',
         GameController::class . ':nextRiddle'
     )->setName('nextRiddle');
 

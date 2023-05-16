@@ -12,8 +12,39 @@ body {
 }
 
 header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     height: fit-content;
     padding: 20px;
+    background-color: #2D1E2F;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-item {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#account-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30px;
+    min-width: 10%;
+}
+
+#register-button {
+    color: white;
+}
+
+#register-button:hover {
+    color: #FFCA3A;
 }
 
 main {

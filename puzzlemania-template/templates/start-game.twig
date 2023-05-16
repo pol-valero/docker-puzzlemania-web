@@ -2,6 +2,8 @@
 
 {% block title %}Game | PuzzleMania{% endblock %}
 
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/game-intro.css">{% endblock %}
+
 {% block content %}
     <h1>Game</h1>
     <h2>{{ data.team }}</h2>
