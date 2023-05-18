@@ -15,10 +15,6 @@ use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
 class GameController {
-    private int $id;
-    private int $currentPoints;
-    private int $currentRiddle;
-
     public function __construct(
         private Twig $twig,
         private UserRepository $userRepository,
@@ -26,8 +22,6 @@ class GameController {
         private GameRepository $gameRepository,
         private RiddleRepository $riddleRepository
     ) {
-        $this->currentPoints = 10;
-        $this->currentRiddle = 0;
     }
 
     public function newGame(Request $request, Response $response): Response {
@@ -74,6 +68,10 @@ class GameController {
         $_SESSION['riddle2'] = $riddles[1]->getRiddle();
         $_SESSION['riddle3'] = $riddles[2]->getRiddle();
 
+        $_SESSION['riddle1_answer'] = $riddles[0]->getAnswer();
+        $_SESSION['riddle2_answer'] = $riddles[1]->getAnswer();
+        $_SESSION['riddle3_answer'] = $riddles[2]->getAnswer();
+
         $game = Game::create()
             ->setUserId(intval($_SESSION['user_id']))
             ->setRiddle1Id(intval($_SESSION['riddle1_id']))
@@ -116,37 +114,63 @@ class GameController {
     }
 
     public function checkRiddleAnswer(Request $request, Response $response): Response {
-        $formData = $request->getParsedBody();
-        $answer = $formData['answer'];
-        $gameId = intval($request->getAttribute("gameId"));
-        $riddleId = intval($request->getAttribute("riddleId"));
-        $riddle = $this->riddleRepository->getRiddleById($riddleId);
-        $game = $this->gameRepository->getGameById($gameId);
         $data = [];
-        $errors = [];
+        $formData = $request->getParsedBody();
+        $userAnswer = $formData['answer'];
+        $data['riddleNum'] = $_SESSION['currentRiddle'] + 1;
 
-        if ($riddle->getAnswer() == $answer) {
+        if ($_SESSION['currentRiddle'] == 0) {
+            $riddleAnswer = $_SESSION['riddle1_answer'];
+            $data['riddle'] = $_SESSION['riddle1'];
+        } else if ($_SESSION['currentRiddle'] == 1) {
+            $riddleAnswer = $_SESSION['riddle2_answer'];
+            $data['riddle'] = $_SESSION['riddle2'];
+        } else {
+            $riddleAnswer = $_SESSION['riddle3_answer'];
+            $data['riddle'] = $_SESSION['riddle3'];
+        }
+
+        if ($riddleAnswer == $userAnswer) {
             $_SESSION['gamePoints'] += 10;
+            $data['answerStatus'] = 'Correct';
         } else {
             $_SESSION['gamePoints'] -= 10;
-            // TODO: show correct answer
+            $data['answerStatus'] = 'Wrong';
+            $data['answer'] = $riddleAnswer;
         }
 
-        if ($_SESSION['gamePoints'] <= 0) {
-            // game over
-        }
-
-        $riddles = $game->riddles();
         $_SESSION['currentRiddle']++;
+        $userStatus['logged'] = isset($_SESSION['user_id']);
 
-        if (intval($_SESSION['currentRiddle']) < 3) {
-            $nextRiddle = $riddles[intval($_SESSION['currentRiddle'])];
+        if (($_SESSION['gamePoints'] <= 0) || (intval($_SESSION['currentRiddle']) >= 3)) { // game over
+            // update game score
+            $this->gameRepository->updateGameScore($_SESSION['gameId'], $_SESSION['gamePoints']);
+            // redirect
+
+            return $this->twig->render($response, 'game-summary.twig', [
+                "totalScore" => $_SESSION['gamePoints'],
+                "buttonHref" => '/team-stats',
+                "buttonValue" => 'Finish',
+                "gameOver" => true,
+                "userStatus" => $userStatus
+            ]);
         } else {
-            // gameOver
-            $_SESSION['currentRiddle'] = 0;
-            $nextRiddle = $riddles[intval($_SESSION['currentRiddle'])]; //TODO: remove this, only for testing purposes now
+            if ($_SESSION['currentRiddle'] == 1) {
+                $nextRiddle = $_SESSION['riddle2_id'];
+            } else {
+                $nextRiddle = $_SESSION['riddle3_id'];
+            }
         }
 
-        return $response->withHeader('Location', '/game/' . $_SESSION['gameId'] . '/riddles/' . $nextRiddle);
+        $route = '/game/' . $_SESSION['gameId'] . '/riddles/' . $nextRiddle;
+
+        return $this->twig->render($response, 'game-summary.twig', [
+            "totalScore" => $_SESSION['gamePoints'],
+            "data" => $data,
+            "buttonHref" => $route,
+            "buttonValue" => 'Next',
+            "gameOver" => false,
+            "userStatus" => $userStatus
+        ]);
     }
 }
