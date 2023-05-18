@@ -80,4 +80,29 @@ final class MySQLRiddleRepository implements RiddleRepository {
         // Return the id of the riddle created
         return $this->databaseConnection->lastInsertId();
     }
+
+    public function getRandomRiddles(): array {
+        $query = <<<'QUERY'
+        SELECT * FROM riddles ORDER BY RAND() LIMIT 3
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+        $statement->execute();
+        $riddles = [];
+
+        $count = $statement->rowCount();
+        if ($count > 0) {
+            $rows = $statement->fetchAll();
+            for ($i = 0; $i < $count; $i++) {
+                $riddle = Riddle::create()
+                    ->setId(intval($rows[$i]['riddle_id']))
+                    ->setUserId(intval($rows[$i]['user_id']))
+                    ->setRiddle(strval($rows[$i]['riddle']))
+                    ->setAnswer(strval($rows[$i]['answer']));
+                $riddles[] = $riddle;
+            }
+        }
+
+        return $riddles;
+    }
 }

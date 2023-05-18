@@ -6,7 +6,7 @@
     <h1>Riddle #{{ data.riddleNum }}</h1>
     <p>{{ data.riddle }}</p>
     <form action="{{ formAction }}" method="POST">
-        <input type="text" placeholder="Answer" value="{{ formData.answer }}">
-        <input type="submit" value="Check">
+        <input class="form-input" name="answer" type="text" placeholder="Answer" value="{{ formData.answer }}">
+        <input class="light-secondary-button" type="submit" value="Check">
     </form>
 {% endblock %}

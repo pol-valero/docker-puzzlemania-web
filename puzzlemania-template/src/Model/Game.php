@@ -32,7 +32,7 @@ class Game implements JsonSerializable {
         return new self();
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return get_object_vars($this);
     }
 
@@ -94,5 +94,71 @@ class Game implements JsonSerializable {
         $riddles[2] = $this->riddle3_id;
 
         return $riddles;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id) {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId(int $user_id) {
+        $this->user_id = $user_id;
+        return $this;
+    }
+
+    /**
+     * @param int $riddle1_id
+     */
+    public function setRiddle1Id(int $riddle1_id) {
+        $this->riddle1_id = $riddle1_id;
+        return $this;
+    }
+
+    /**
+     * @param int $riddle2_id
+     */
+    public function setRiddle2Id(int $riddle2_id) {
+        $this->riddle2_id = $riddle2_id;
+        return $this;
+    }
+
+    /**
+     * @param int $riddle3_id
+     */
+    public function setRiddle3Id(int $riddle3_id) {
+        $this->riddle3_id = $riddle3_id;
+        return $this;
+    }
+
+    /**
+     * @param array $riddles
+     */
+    public function setRiddles(array $riddles) {
+        $this->riddle1_id = $riddles[0];
+        $this->riddle2_id = $riddles[1];
+        $this->riddle3_id = $riddles[2];
+        return $this;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore(int $score) {
+        $this->score = $score;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }
