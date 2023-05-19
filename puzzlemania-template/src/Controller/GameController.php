@@ -43,7 +43,8 @@ class GameController {
 
         // get team name
         $team = $this->teamRepository->getTeamById($user->team);
-        $data['team'] = $team->name;
+        $_SESSION['teamId'] = $team->getId();
+        $data['team'] = $team->name();
 
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
@@ -130,7 +131,7 @@ class GameController {
             $data['riddle'] = $_SESSION['riddle3'];
         }
 
-        if ($riddleAnswer == $userAnswer) {
+        if (strtolower($riddleAnswer) == strtolower($userAnswer)) {
             $_SESSION['gamePoints'] += 10;
             $data['answerStatus'] = 'Correct';
         } else {
@@ -145,6 +146,9 @@ class GameController {
         if (($_SESSION['gamePoints'] <= 0) || (intval($_SESSION['currentRiddle']) >= 3)) { // game over
             // update game score
             $this->gameRepository->updateGameScore($_SESSION['gameId'], $_SESSION['gamePoints']);
+            // update team score (since if the user loses all its points here we will have 0 points
+            // so we can always add it to the team score
+            $this->teamRepository->increaseTeamScore($_SESSION['teamId'], $_SESSION['gamePoints']);
             // redirect
 
             return $this->twig->render($response, 'game-summary.twig', [

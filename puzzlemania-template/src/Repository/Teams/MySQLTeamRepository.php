@@ -20,11 +20,12 @@ final class MySQLTeamRepository implements TeamRepository {
         // TODO: Implement createTeam() method.
     }
 
-    public function getTeamByName(string $name) {
+    public function getTeamByName(string $name): ?Team {
         // TODO: Implement getTeamByName() method.
+        return null;
     }
 
-    public function getTeamById(int $id) {
+    public function getTeamById(int $id): ?Team {
         $query = <<<'QUERY'
         SELECT * FROM teams WHERE id = :id
         QUERY;
@@ -38,12 +39,21 @@ final class MySQLTeamRepository implements TeamRepository {
         $count = $statement->rowCount();
         if ($count > 0) {
             $row = $statement->fetch(PDO::FETCH_OBJ);
-            return $row;
+
+            return Team::create()
+                ->setId($row->id)
+                ->setName($row->name)
+                ->setNumMembers($row->numMembers);
         }
         return null;
     }
 
-    public function getAllTeams() {
+    public function getAllTeams(): ?array {
         // TODO: Implement getAllTeams() method.
+        return null;
+    }
+
+    public function increaseTeamScore(int $id, int $gamePoints): void {
+        // TODO: Implement method. It should add the gamePoints to current team score
     }
 }

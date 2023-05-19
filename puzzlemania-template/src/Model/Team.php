@@ -28,7 +28,7 @@ class Team implements JsonSerializable {
         return new self();
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return get_object_vars($this);
     }
 
@@ -44,5 +44,37 @@ class Team implements JsonSerializable {
      */
     public function name(): string {
         return $this->name;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id) {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param int $numMembers
+     */
+    public function setNumMembers(int $numMembers) {
+        $this->numMembers = $numMembers;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }
