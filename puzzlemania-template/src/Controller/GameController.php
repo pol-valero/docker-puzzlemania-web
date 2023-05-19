@@ -38,7 +38,7 @@ class GameController {
         $user = $this->userRepository->getUserById(intval($_SESSION['user_id']));
         if (!isset($user->team)) {
             // redirect to join team page
-            return $response->withHeader('Location', '/'); //TODO: change location
+            return $response->withHeader('Location', '/join');
         }
 
         // get team name

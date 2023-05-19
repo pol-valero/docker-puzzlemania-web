@@ -11,6 +11,5 @@ interface GameRepository {
     public function getGameById(int $id): ?Game;
     public function getGamesByUser(int $user_id): ?array;
     public function getAllGames(): ?array;
-
     public function updateGameScore(int $id, int $score): void;
 }

@@ -93,6 +93,8 @@ button:hover {
 }
 
 .primary-button:hover {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
     cursor: pointer;
 }
 
@@ -155,4 +157,10 @@ button:hover {
 
 .footer-text {
     color: lightgrey;
+}
+
+.big-button {
+    width: 100px;
+    height: 50px;
+    font-size: 1.4em;
 }
