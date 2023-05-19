@@ -2,19 +2,23 @@
 
 {% block title %}Game | PuzzleMania{% endblock %}
 
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/game-inprogress.css">{% endblock %}
+
 {% block content %}
-{% if gameOver %}
-    <h1>Game summary</h1>
-    <p>You have completed the last riddle!</p>
-    <h2>Total score</h2>
-    <p>{{ totalScore }}</p>
-{% else %}
-    <h1>Riddle #{{ data.riddleNum }}</h1>
-    <p>{{ data.riddle }}</p>
-    <h2>{{ data.answerStatus }} answer!</h2>
-    {% if data['answer'] %}
-        <p class="error-message">The right answer is: <b>{{ data.answer }}</b></p>
+    <div class="game-riddle-block">
+    {% if gameOver %}
+        <h1>Game summary</h1>
+        <p>You have completed the last riddle!</p>
+        <h2>Total score</h2>
+        <p id="game-final-score">{{ totalScore }}</p>
+    {% else %}
+        <h1>Riddle #{{ data.riddleNum }}</h1>
+        <p>{{ data.riddle }}</p>
+        <h2>{{ data.answerStatus }} answer!</h2>
+        {% if data['answer'] %}
+            <p class="error-message">The right answer is: <b>{{ data.answer }}</b></p>
+        {% endif %}
     {% endif %}
-{% endif %}
-    <button onclick="location.href='{{ buttonHref }}'" class="primary-button">{{ buttonValue }}</button>
+        <button onclick="location.href='{{ buttonHref }}'" id="game-summary-button" class="primary-button">{{ buttonValue }}</button>
+    </div>
 {% endblock %}

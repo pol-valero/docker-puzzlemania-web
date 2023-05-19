@@ -2,11 +2,17 @@
 
 {% block title %}Game | PuzzleMania{% endblock %}
 
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/game-inprogress.css">{% endblock %}
+
 {% block content %}
-    <h1>Riddle #{{ data.riddleNum }}</h1>
-    <p>{{ data.riddle }}</p>
-    <form action="{{ formAction }}" method="POST">
-        <input class="form-input" name="answer" type="text" placeholder="Answer" value="{{ formData.answer }}">
-        <input class="light-secondary-button" type="submit" value="Check">
-    </form>
+    <div class="game-riddle-block">
+        <div class="game-riddle-intro">
+            <h1>Riddle #{{ data.riddleNum }}</h1>
+            <p>{{ data.riddle }}</p>
+        </div>
+        <form action="{{ formAction }}" method="POST">
+            <input class="form-input" name="answer" type="text" placeholder="Answer" value="{{ formData.answer }}">
+            <input class="light-secondary-button" type="submit" value="Check">
+        </form>
+    </div>
 {% endblock %}
