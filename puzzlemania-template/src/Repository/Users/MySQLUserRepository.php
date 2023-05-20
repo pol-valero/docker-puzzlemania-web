@@ -18,21 +18,16 @@ final class MySQLUserRepository implements UserRepository {
 
     public function createUser(User $user): void {
         $query = <<<'QUERY'
-        INSERT INTO users(email, password, coins, createdAt, updatedAt)
-        VALUES(:email, :password, :coins, :createdAt, :updatedAt)
-        QUERY;
-
-        $queryWithoutCoins = <<<'QUERY'
-        INSERT INTO users(email, password, createdAt, updatedAt)
-        VALUES(:email, :password, :createdAt, :updatedAt)
+        INSERT INTO users(email, password, createdAt, updatedAt, profile_picture)
+        VALUES(:email, :password, :createdAt, :updatedAt, :profile_picture)
         QUERY;
 
         $email = $user->email();
         $password = $user->password();
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
+        $defaultPicture = 'profile_placeholder.png';
 
-        if (empty($coins)) $query = $queryWithoutCoins;
 
         $statement = $this->databaseConnection->prepare($query);
 
@@ -40,6 +35,7 @@ final class MySQLUserRepository implements UserRepository {
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('createdAt', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updatedAt', $updatedAt, PDO::PARAM_STR);
+        $statement->bindParam('profile_picture', $defaultPicture, PDO::PARAM_STR);
 
         $statement->execute();
     }
@@ -129,5 +125,18 @@ final class MySQLUserRepository implements UserRepository {
             }
         }
         return $users;
+    }
+
+    public function setProfilePicture(int $id, string $profilePicture){
+        $query = <<<'QUERY'
+        UPDATE users SET profile_picture = :profilePicture WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+        $statement->bindParam('profilePicture', $profilePicture, PDO::PARAM_STR);
+
+        $statement->execute();
     }
 }

@@ -12,4 +12,5 @@ interface UserRepository {
     public function getUserByEmail(string $email);
     public function getUserById(int $id);
     public function getAllUsers();
+    public function setProfilePicture(int $id, string $profilePicture);
 }

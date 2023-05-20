@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use DI\Container;
-use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
-use Salle\PuzzleMania\Controller\API\UsersAPIController;
+use Salle\PuzzleMania\Controller\FileController;
+use Salle\PuzzleMania\Controller\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\GameController;
 use Salle\PuzzleMania\Controller\JoinTeamController;
 use Salle\PuzzleMania\Controller\SignUpController;
@@ -34,4 +34,18 @@ function addRoutes(App $app, Container $container): void
     $app->post('/join', JoinTeamController::class . ':createTeam');
 
     $app->get('/invite/join/{id:.*}', JoinTeamController::class . ':addUserToTeam')->setName('addUserToTeam');
+
+    /* RIDDLES */
+    $app->get('/riddles', RiddlesAPIController::class . ':showRiddles');
+    $app->get('/riddles/{id}', RiddlesAPIController::class . ':showRiddle');
+
+    $app->get('/api/riddle', RiddlesAPIController::class . ':getRiddles');
+    $app->post('/api/riddle', RiddlesAPIController::class . ':postRiddle');
+    $app->get('/api/riddle/{id}', RiddlesAPIController::class . ':getRiddle');
+    $app->put('/api/riddle/{id}', RiddlesAPIController::class . ':putRiddle');
+    $app->delete('/api/riddle/{id}', RiddlesAPIController::class . ':deleteRiddle');
+
+    /* PROFILE */
+    $app->get('/profile', FileController::class . ':showProfileFormAction')->setName('profile');
+    $app->post('/profile', FileController::class . ':uploadFileAction')->setName('upload');
 }

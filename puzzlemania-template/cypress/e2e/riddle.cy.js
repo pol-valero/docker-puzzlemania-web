@@ -38,17 +38,15 @@ describe('Riddle API', () => {
         cy.recreateDatabase()
     })
 
-    /**
-     * CREATE
-     */
-    it('[R-1] adds a new riddle', () => {
-        createUsers(1)
+        // CREATE
+        it('[R-1] adds a new riddle', () => {
+            createUsers(1)
 
-        let riddleWithUserId = generateRiddlePerUserId(1)
+            let riddleWithUserId = generateRiddlePerUserId(1)
 
-        cy.request('POST', '/api/riddle', riddleWithUserId)
-            .then((response) => {
-                expect(response.body).to.have.property('riddle', riddleWithUserId.riddle)
+            cy.request('POST', '/api/riddle', riddleWithUserId)
+                .then((response) => {
+                    expect(response.body).to.have.property('riddle', riddleWithUserId.riddle)
 
                 expect(response.status).to.eq(201)
                 expect(response.body).to.have.property('riddle', riddleWithUserId.riddle)
@@ -61,122 +59,116 @@ describe('Riddle API', () => {
             .then((response) => {
                 const message = "'riddle' and/or 'answer' and/or 'userId' key missing";
 
-                expect(response.status).to.eq(400)
-                expect(response.body).to.have.property('message', message)
-            })
-    })
-
-    /**
-     * READ
-     */
-    it('[R-3] gets a JSON response', () => {
-        cy.request('/api/riddle').its('headers').its('content-type').should('include', 'application/json')
-    })
-
-    it('[R-4] the riddle retrieved is the same as the riddle created', () => {
-        createUsers(1)
-
-        let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
-            let createdRiddle = response.body
-            cy.request('GET', `/api/riddle/${createdRiddle.id}`).then((response) => {
-                expect(response.status).to.eq(200)
-                expect(response.body).to.have.property('id', createdRiddle.id)
-                expect(response.body).to.have.property('userId', createdRiddle.userId)
-                expect(response.body).to.have.property('riddle', createdRiddle.riddle)
-                expect(response.body).to.have.property('answer', createdRiddle.answer)
-            })
-        })
-    })
-
-    it('[R-5] throws an error when requested for a non-existing riddle', () => {
-        const message = "Riddle with id 1 does not exist"
-        cy.request({url: `/api/riddle/1`, failOnStatusCode: false}).then((response) => {
-            expect(response.status).to.eq(404)
-            expect(response.body).to.have.property('message', message)
-        })
-    })
-
-    it('[R-6] when creating 3 riddles, 3 riddles are retrieved', () => {
-        createUsers(3)
-
-        let responses = createRiddlePerUser(1, 3)
-
-        cy.request('GET', `/api/riddle`).then((response) => {
-            expect(response.body).to.have.lengthOf(3)
-        })
-    })
-
-    /**
-     * UPDATE
-     */
-    it('[R-7] updates a riddle', () => {
-        createUsers(1)
-
-        let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
-            let updatedRiddle = response.body
-            updatedRiddle.riddle = 'Updated riddle'
-            updatedRiddle.answer = 'Updated answer'
-
-            cy.request('PUT', `/api/riddle/${updatedRiddle.id}`, updatedRiddle).then((response) => {
-                expect(response.status).to.eq(200) // GET response code
-                expect(response.body).to.have.property('riddle', updatedRiddle.riddle)
-                expect(response.body).to.have.property('answer', updatedRiddle.answer)
-            })
-        })
-    })
-
-    it('[R-8] when updating a riddle, returns 400 if riddle or answer keys are missing', () => {
-        createUsers(1)
-
-        let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
-            let createdRiddle = response.body
-            cy.request({method: 'PUT', url: `/api/riddle/${createdRiddle.id}`, failOnStatusCode: false, body: {}})
-                .then((response) => {
-                    const message = "'riddle' and/or 'answer' key missing";
-
                     expect(response.status).to.eq(400)
                     expect(response.body).to.have.property('message', message)
                 })
         })
-    })
 
-    it('[R-9] when updating a riddle, returns 404 if the riddle is not found', () => {
-        const message = "Riddle with id 18 does not exist"
-        cy.request({
-            method: 'PUT',
-            url: `/api/riddle/18`,
-            failOnStatusCode: false,
-            body: generateRiddlePerUserId(1)
-        }).then((response) => {
-            expect(response.status).to.eq(404)
-            expect(response.body).to.have.property('message', message)
+        //READ
+        it('[R-3] gets a JSON response', () => {
+            cy.request('/api/riddle').its('headers').its('content-type').should('include', 'application/json')
         })
-    })
 
-    /**
-     * DELETE
-     */
-    it('[R-10] deletes a riddle', () => {
-        createUsers(1)
-        let riddle = createRiddlePerUser(1, 1)[0].response.then((createResponse) => {
-            cy.request('DELETE', `/api/riddle/${createResponse.body.id}`).then((response) => {
-                const message = `Riddle with id ${createResponse.body.id} was successfully deleted`
+        it('[R-4] the riddle retrieved is the same as the riddle created', () => {
+            createUsers(1)
 
-                expect(response.status).to.eq(200)
+            let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
+                let createdRiddle = response.body
+                cy.request('GET', `/api/riddle/${createdRiddle.id}`).then((response) => {
+                    expect(response.status).to.eq(200)
+                    expect(response.body).to.have.property('id', createdRiddle.id)
+                    expect(response.body).to.have.property('userId', createdRiddle.userId)
+                    expect(response.body).to.have.property('riddle', createdRiddle.riddle)
+                    expect(response.body).to.have.property('answer', createdRiddle.answer)
+                })
+            })
+        })
+
+        it('[R-5] throws an error when requested for a non-existing riddle', () => {
+            const message = "Riddle with id 1 does not exist"
+            cy.request({url: `/api/riddle/1`, failOnStatusCode: false}).then((response) => {
+                expect(response.status).to.eq(404)
                 expect(response.body).to.have.property('message', message)
             })
         })
-    })
 
-    it('[R-11] throws an error when requested to delete a non-existing riddle', () => {
-        const message = "Riddle with id 18 does not exist"
-        cy.request({
-            method: 'DELETE',
-            url: `/api/riddle/18`,
-            failOnStatusCode: false
-        }).then((response) => {
-            expect(response.status).to.eq(404)
-            expect(response.body).to.have.property('message', message)
+        it('[R-6] when creating 3 riddles, 3 riddles are retrieved', () => {
+            createUsers(3)
+
+            let responses = createRiddlePerUser(1, 3)
+
+            cy.request('GET', `/api/riddle`).then((response) => {
+                expect(response.body).to.have.lengthOf(3)
+            })
         })
-    })
+
+        // UPDATE
+        it('[R-7] updates a riddle', () => {
+            createUsers(1)
+
+            let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
+                let updatedRiddle = response.body
+                updatedRiddle.riddle = 'Updated riddle'
+                updatedRiddle.answer = 'Updated answer'
+
+                cy.request('PUT', `/api/riddle/${updatedRiddle.id}`, updatedRiddle).then((response) => {
+                    expect(response.status).to.eq(200) // GET response code
+                    expect(response.body).to.have.property('riddle', updatedRiddle.riddle)
+                    expect(response.body).to.have.property('answer', updatedRiddle.answer)
+                })
+            })
+        })
+
+        it('[R-8] when updating a riddle, returns 400 if riddle or answer keys are missing', () => {
+            createUsers(1)
+
+            let riddle = createRiddlePerUser(1, 1)[0].response.then((response) => {
+                let createdRiddle = response.body
+                cy.request({method: 'PUT', url: `/api/riddle/${createdRiddle.id}`, failOnStatusCode: false, body: {}})
+                    .then((response) => {
+                        const message = "'riddle' and/or 'answer' key missing";
+
+                        expect(response.status).to.eq(400)
+                        expect(response.body).to.have.property('message', message)
+                    })
+            })
+        })
+
+        it('[R-9] when updating a riddle, returns 404 if the riddle is not found', () => {
+            const message = "Riddle with id 18 does not exist"
+            cy.request({
+                method: 'PUT',
+                url: `/api/riddle/18`,
+                failOnStatusCode: false,
+                body: generateRiddlePerUserId(1)
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+                expect(response.body).to.have.property('message', message)
+            })
+        })
+
+        // DELETE
+        it('[R-10] deletes a riddle', () => {
+            createUsers(1)
+            let riddle = createRiddlePerUser(1, 1)[0].response.then((createResponse) => {
+                cy.request('DELETE', `/api/riddle/${createResponse.body.id}`).then((response) => {
+                    const message = `Riddle with id ${createResponse.body.id} was successfully deleted`
+
+                    expect(response.status).to.eq(200)
+                    expect(response.body).to.have.property('message', message)
+                })
+            })
+        })
+
+        it('[R-11] throws an error when requested to delete a non-existing riddle', () => {
+            const message = "Riddle with id 18 does not exist"
+            cy.request({
+                method: 'DELETE',
+                url: `/api/riddle/18`,
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+                expect(response.body).to.have.property('message', message)
+            })
+        })
 })

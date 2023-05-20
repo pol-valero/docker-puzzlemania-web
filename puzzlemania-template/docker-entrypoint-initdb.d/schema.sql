@@ -1,6 +1,5 @@
 SET NAMES utf8;
-SET
-time_zone = '+00:00';
+SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
@@ -16,7 +15,8 @@ CREATE TABLE `users`
     `team`      INT,
     `createdAt` DATETIME                                                NOT NULL,
     `updatedAt` DATETIME                                                NOT NULL,
-    PRIMARY KEY (`id`),
+    `profile_picture`  VARCHAR(255)                                             ,
+    PRIMARY KEY (`id`)
     FOREIGN KEY (team) REFERENCES teams (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

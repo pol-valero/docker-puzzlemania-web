@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
-use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
-use Salle\PuzzleMania\Controller\API\UsersAPIController;
+use Salle\PuzzleMania\Controller\FileController;
+use Salle\PuzzleMania\Controller\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\GameController;
 use Salle\PuzzleMania\Controller\JoinTeamController;
 use Salle\PuzzleMania\Controller\SignInController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\TeamStatsController;
 use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
-use Salle\PuzzleMania\Repository\MySQLRiddleRepository;
+use Salle\PuzzleMania\Repository\Riddles\MySQLRiddleRepository;
 use Salle\PuzzleMania\Repository\PDOConnectionBuilder;
 use Salle\PuzzleMania\Repository\Teams\MySQLTeamRepository;
 use Salle\PuzzleMania\Repository\Users\MySQLUserRepository;
@@ -49,10 +49,6 @@ function addDependencies(ContainerInterface $container): void
         return new MySQLUserRepository($container->get('db'));
     });
 
-    $container->set('team_repository', function (ContainerInterface $container) {
-        return new MySQLTeamRepository($container->get('db'));
-    });
-
     $container->set(
         SignInController::class,
         function (ContainerInterface $c) {
@@ -67,6 +63,10 @@ function addDependencies(ContainerInterface $container): void
         }
     );
 
+    $container->set('team_repository', function (ContainerInterface $container) {
+        return new MySQLTeamRepository($container->get('db'));
+    });
+
     $container->set(
         GameController::class,
         function (ContainerInterface $c) {
@@ -75,7 +75,7 @@ function addDependencies(ContainerInterface $container): void
     );
 
     $container->set(
-       JoinTeamController::class,
+        JoinTeamController::class,
         function (ContainerInterface $c) {
             return new JoinTeamController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
         }
@@ -91,4 +91,23 @@ function addDependencies(ContainerInterface $container): void
     $container->set(AuthorizationMiddleware::class, function (ContainerInterface $container) {
         return new AuthorizationMiddleware($container->get('flash'));
     });
+
+    $container->set('riddle_repository', function (ContainerInterface $container) {
+        return new MySQLRiddleRepository($container->get('db'));
+    });
+
+    $container->set(
+        FileController::class,
+        function (ContainerInterface $c) {
+            return new FileController($c->get('view'), $c->get('user_repository'));
+        }
+    );
+
+
+    $container->set(
+        RiddlesAPIController::class,
+        function (ContainerInterface $c) {
+            return new RiddlesAPIController($c->get('view'), $c->get('riddle_repository'), $c->get('user_repository'));
+        }
+    );
 }
