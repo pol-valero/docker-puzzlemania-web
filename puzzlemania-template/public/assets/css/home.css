@@ -37,6 +37,10 @@ a {
     color: white;
 }
 
+#error-message {
+    color: red;
+}
+
 #register-button:hover {
     color: #FFCA3A;
 }

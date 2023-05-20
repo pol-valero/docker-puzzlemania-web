@@ -74,6 +74,11 @@ class SignInController
                 $errors['password'] = 'Your email and/or password are incorrect.';
             } else {
                 $_SESSION['user_id'] = $user->id;
+
+                if($user->team != null) {
+                    $_SESSION['team_id'] = $user->team;
+                }
+
                 return $response->withHeader('Location', '/')->withStatus(302);
             }
         }
@@ -87,4 +92,11 @@ class SignInController
             ]
         );
     }
+
+    public function logOut(Request $request, Response $response): Response
+    {
+        session_destroy();
+        return $response->withHeader('Location', '/sign-in');
+    }
+
 }
