@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Salle\PuzzleMania\Controller;
 
-use Salle\PuzzleMania\Service\ValidatorService;
-use Salle\PuzzleMania\Repository\UserRepository;
-use Salle\PuzzleMania\Model\User;
-
+use DateTime;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
+use Salle\PuzzleMania\Model\User;
+use Salle\PuzzleMania\Repository\Users\UserRepository;
+use Salle\PuzzleMania\Service\ValidatorService;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
-
-use DateTime;
 
 final class SignUpController
 {

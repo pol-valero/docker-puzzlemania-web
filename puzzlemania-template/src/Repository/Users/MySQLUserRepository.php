@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Salle\PuzzleMania\Repository;
+namespace Salle\PuzzleMania\Repository\Users;
 
 use PDO;
 use Salle\PuzzleMania\Model\User;
@@ -30,6 +30,7 @@ final class MySQLUserRepository implements UserRepository
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
         $defaultPicture = 'profile_placeholder.png';
+
 
         $statement = $this->databaseConnection->prepare($query);
 

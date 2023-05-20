@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
-use Salle\PuzzleMania\Controller\API\RiddlesAPIController;
-use Salle\PuzzleMania\Controller\API\UsersAPIController;
 use Salle\PuzzleMania\Controller\FileController;
+use Salle\PuzzleMania\Controller\RiddlesAPIController;
 use Salle\PuzzleMania\Controller\SignUpController;
 use Salle\PuzzleMania\Controller\SignInController;
-use Salle\PuzzleMania\Repository\MySQLRiddleRepository;
-use Salle\PuzzleMania\Repository\MySQLUserRepository;
+use Salle\PuzzleMania\Middleware\AuthorizationMiddleware;
 use Salle\PuzzleMania\Repository\PDOConnectionBuilder;
+use Salle\PuzzleMania\Repository\Riddles\MySQLRiddleRepository;
+use Salle\PuzzleMania\Repository\Users\MySQLUserRepository;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
@@ -45,6 +45,14 @@ function addDependencies(ContainerInterface $container): void
         return new MySQLUserRepository($container->get('db'));
     });
 
+    $container->set('riddle_repository', function (ContainerInterface $container) {
+        return new MySQLRiddleRepository($container->get('db'));
+    });
+
+    $container->set(AuthorizationMiddleware::class, function (ContainerInterface $container) {
+        return new AuthorizationMiddleware($container->get('flash'));
+    });
+
     $container->set(
         SignInController::class,
         function (ContainerInterface $c) {
@@ -66,4 +74,11 @@ function addDependencies(ContainerInterface $container): void
         }
     );
 
+
+    $container->set(
+        RiddlesAPIController::class,
+        function (ContainerInterface $c) {
+            return new RiddlesAPIController($c->get('view'), $c->get('riddle_repository'), $c->get('user_repository'));
+        }
+    );
 }
