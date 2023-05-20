@@ -24,7 +24,7 @@ final class AuthorizationMiddleware
 
             $this->flash->addMessage("notifications", $this->buildMessage($route->getName()));
             $response = new Response();
-            return $response->withHeader('Location','/');
+            return $response->withHeader('Location','/')->withStatus(302);
         }
         return $next->handle($request);
     }

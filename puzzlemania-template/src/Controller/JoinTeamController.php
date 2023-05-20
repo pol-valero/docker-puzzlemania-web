@@ -23,9 +23,8 @@ class JoinTeamController {
 
     public function joinTeam(Request $request, Response $response): Response {
 
-        $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 
-        if(isset($userInfo->team)) {
+        if (isset($_SESSION['team_id'])) {
            return $response->withHeader('Location', '/team-stats');
         }
 
