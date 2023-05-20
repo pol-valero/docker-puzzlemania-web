@@ -9,6 +9,7 @@ use Salle\PuzzleMania\Model\Team;
 use Salle\PuzzleMania\Model\User;
 use Salle\PuzzleMania\Repository\Teams\TeamRepository;
 use Salle\PuzzleMania\Repository\Users\UserRepository;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
 class JoinTeamController {
@@ -16,7 +17,8 @@ class JoinTeamController {
     public function __construct(
         private Twig $twig,
         private UserRepository $userRepository,
-        private TeamRepository $teamRepository
+        private TeamRepository $teamRepository,
+        private Messages $flash
     ) {
         //
     }
@@ -25,7 +27,16 @@ class JoinTeamController {
 
 
         if (isset($_SESSION['team_id'])) {
+            $this->flash->addMessage('errorTeam', 'Error: You are already in a team!');
            return $response->withHeader('Location', '/team-stats');
+        }
+
+        $messages = $this->flash->getMessages();
+
+        if (isset($messages['errorTeamStats'])) {
+            $errorTeamStats = $messages['errorTeamStats'][0];
+        } else {
+            $errorTeamStats = '';
         }
 
         $inclompleteTeams = $this->teamRepository->getIncompleteTeams();
@@ -37,7 +48,7 @@ class JoinTeamController {
             $showIncompleteTeams = true;
         }
 
-        return $this->twig->render($response, 'join-team.twig', ['incompleteTeams' => $inclompleteTeams, 'showIncompleteTeams' => $showIncompleteTeams]);
+        return $this->twig->render($response, 'join-team.twig', ['incompleteTeams' => $inclompleteTeams, 'showIncompleteTeams' => $showIncompleteTeams, 'error' => $errorTeamStats]);
 
     }
 
@@ -91,6 +102,12 @@ class JoinTeamController {
         $user->setUpdatedAt(new DateTime());
 
         $this->userRepository->updateUser($user);
+
+        $teamInfo = $this->teamRepository->getTeamById($teamId);
+
+        $updatedNumMembers = $teamInfo->numMembers + 1;
+
+        $this->teamRepository->updateTeam($teamId, $updatedNumMembers, new DateTime());
 
         return $response->withHeader('Location', '/team-stats');
     }

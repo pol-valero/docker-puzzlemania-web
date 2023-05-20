@@ -77,14 +77,14 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         JoinTeamController::class,
         function (ContainerInterface $c) {
-            return new JoinTeamController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
+            return new JoinTeamController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'), $c->get("flash"));
         }
     );
 
     $container->set(
         TeamStatsController::class,
         function (ContainerInterface $c) {
-            return new TeamStatsController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'));
+            return new TeamStatsController($c->get('view'), $c->get('user_repository'), $c->get('team_repository'), $c->get("flash"));
         }
     );
 

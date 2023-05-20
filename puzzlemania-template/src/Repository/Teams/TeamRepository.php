@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace Salle\PuzzleMania\Repository\Teams;
 
+use DateTime;
 use Salle\PuzzleMania\Model\Team;
 
 interface TeamRepository {
     public function createTeam(string $teamName);
-    public function updateTeam(Team $team);
+    public function updateTeam(int $teamId, int $numMembers, DateTime $updatedAt);
     public function getTeamByName(string $name);
     public function getTeamById(int $id);
     public function getAllTeams();

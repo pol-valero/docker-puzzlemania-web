@@ -16,7 +16,7 @@ CREATE TABLE `users`
     `createdAt` DATETIME                                                NOT NULL,
     `updatedAt` DATETIME                                                NOT NULL,
     `profile_picture`  VARCHAR(255)                                             ,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
     FOREIGN KEY (team) REFERENCES teams (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

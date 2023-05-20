@@ -47,7 +47,20 @@ final class MySQLTeamRepository implements TeamRepository {
         return $result[0]["LAST_INSERT_ID()"];
     }
 
-    public function updateTeam(Team $team) {
+    public function updateTeam(int $teamId, int $numMembers, DateTime $updatedAt) {
+        $query = <<<'QUERY'
+        UPDATE teams SET numMembers = :numMembers, updatedAt = :updatedAt WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $dateTime = $updatedAt->format(self::DATE_FORMAT);
+
+        $statement->bindParam('numMembers', $numMembers, PDO::PARAM_INT);
+        $statement->bindParam('updatedAt', $dateTime, PDO::PARAM_STR);
+        $statement->bindParam('id', $teamId, PDO::PARAM_INT);
+
+        $statement->execute();
 
     }
 
