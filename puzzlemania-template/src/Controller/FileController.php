@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 namespace Salle\PuzzleMania\Controller;
-use Salle\PuzzleMania\Repository\UserRepository;
+use Salle\PuzzleMania\Repository\Users\UserRepository;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
