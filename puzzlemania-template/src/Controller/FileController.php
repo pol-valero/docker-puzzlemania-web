@@ -78,6 +78,9 @@ final class FileController
                 );
             }
 
+            // Check if the file size is less than 1MB
+            // echo $uploadedFile->getSize();
+
             $name = $uploadedFile->getClientFilename();
             $fileInfo = pathinfo($name);
             $format = $fileInfo['extension'];
