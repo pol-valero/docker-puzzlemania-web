@@ -17,18 +17,20 @@
           <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
           {% if userStatus['logged'] %}
             <a id="navbar-game-link" class="navbar-item" href="{{ full_url_for('newGame') }}">Game</a>
-            <a id="navbar-teams-link" class="navbar-item">Teams</a>
-            <a id="navbar-profile-link" class="navbar-item">Profile</a>
+            <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('joinTeam') }}">Teams</a>
+            <a id="navbar-team-stats-link" class="navbar-item" href="{{ full_url_for('teamStats') }}">Team stats</a>
+            <a id="navbar-profile-link" class="navbar-item" href="{{ full_url_for('profile') }}">Profile</a>
           {% endif %}
-          <a id="navbar-api-link" class="navbar-item">Riddles</a>
+          <a id="navbar-api-link" class="navbar-item" href="{{ full_url_for('showRiddles') }}">Riddles</a>
         </nav>
+        <div id="account-buttons">
         {% if userStatus['logged'] %}
+          <button onclick="location.href='{{ full_url_for('logOut') }}'" class="primary-button">Logout</button>
         {% else %}
-          <div id="account-buttons">
-            <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
-            <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
-          </div>
+          <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
+          <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
         {% endif %}
+        </div>
       {% endblock %}
     </header>
     <main>{% block content %}{% endblock %}</main>

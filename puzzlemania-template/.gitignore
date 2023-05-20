@@ -1,3 +1,5 @@
 vendor/
 .idea/
 .vscode/
+public/uploads/
+!*public/uploads/profile_placeholder.png

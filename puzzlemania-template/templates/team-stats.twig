@@ -1,0 +1,18 @@
+{% extends "base.twig" %}
+
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
+
+{% block content %}
+    <h1 class="error-message">{{ error }}</h1>
+    <h2>Access your team's stats</h2>
+
+    <p>Name of the team: {{ teamInfo.name }}</p>
+    <p>Current number of team members: {{ teamInfo.numMembers }}</p>
+    <p>List of team members:</p>
+    <ul>
+        {% for teamMember in teamMembers %}
+            <li>{{ teamMember }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total number of points from the last finished game: </p>
+{% endblock %}

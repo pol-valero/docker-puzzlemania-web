@@ -1,6 +1,5 @@
 SET NAMES utf8;
-SET
-time_zone = '+00:00';
+SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
@@ -10,36 +9,41 @@ USE `puzzlemania`;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`
 (
-    `id`        INT                                                     NOT NULL AUTO_INCREMENT,
-    `email`     VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    `password`  VARCHAR(255)                                            NOT NULL,
-    `team`      INT,
-    `createdAt` DATETIME                                                NOT NULL,
-    `updatedAt` DATETIME                                                NOT NULL,
+    `id`                INT                                                     NOT NULL AUTO_INCREMENT,
+    `email`             VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `password`          VARCHAR(255)                                            NOT NULL,
+    `team`              INT,
+    `profile_picture`   VARCHAR(255),
+    `createdAt`         DATETIME                                                NOT NULL,
+    `updatedAt`         DATETIME                                                NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (team) REFERENCES teams (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `riddles`;
 CREATE TABLE `riddles`
 (
-    `riddle_id`   INT          NOT NULL AUTO_INCREMENT,
-    `user_id`    INT,
-    `riddle`      VARCHAR(255) NOT NULL,
+    `riddle_id` INT          NOT NULL AUTO_INCREMENT,
+    `user_id`   INT,
+    `riddle`    VARCHAR(255) NOT NULL,
     `answer`    VARCHAR(255) NOT NULL,
     PRIMARY KEY (`riddle_id`),
     FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams`
 (
     `id`            INT             NOT NULL AUTO_INCREMENT,
     `name`          VARCHAR(255)    NOT NULL,
     `numMembers`    INT             NOT NULL,
+    `score`         INT             NOT NULL,
     `createdAt`     DATETIME        NOT NULL,
     `updatedAt`     DATETIME        NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `games`;
 CREATE TABLE `games`
 (
     `id`            INT         NOT NULL AUTO_INCREMENT,

@@ -81,6 +81,34 @@ final class MySQLRiddleRepository implements RiddleRepository {
         return $this->databaseConnection->lastInsertId();
     }
 
+    public function updateRiddle(Riddle $riddle) {
+        $query = <<<'QUERY'
+        UPDATE riddles SET riddle = :riddle, answer = :answer WHERE riddle_id = :id
+        QUERY;
+
+        $id = $riddle->getId();
+        $riddle_text = $riddle->getRiddle();
+        $answer = $riddle->getAnswer();
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+        $statement->bindParam(':riddle', $riddle_text, PDO::PARAM_STR);
+        $statement->bindParam(':answer', $answer, PDO::PARAM_STR);
+
+        $statement->execute();
+    }
+
+    public function deleteRiddle(int $id) {
+        $query = <<<'QUERY'
+        DELETE FROM riddles WHERE riddle_id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
     public function getRandomRiddles(): array {
         $query = <<<'QUERY'
         SELECT * FROM riddles ORDER BY RAND() LIMIT 3

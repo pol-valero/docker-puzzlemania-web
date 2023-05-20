@@ -7,58 +7,73 @@ namespace Salle\PuzzleMania\Model;
 use DateTime;
 use JsonSerializable;
 
-class User implements JsonSerializable {
+class User implements JsonSerializable
+{
+
     private int $id;
     private string $email;
     private string $password;
     private int $team;
     private Datetime $createdAt;
     private Datetime $updatedAt;
+    private string $profilePicture;
 
-//    public function __construct(
-//        string   $email,
-//        string   $password,
-//        Datetime $createdAt,
-//        Datetime $updatedAt
-//    )
-//    {
-//        $this->email = $email;
-//        $this->password = $password;
-//        $this->createdAt = $createdAt;
-//        $this->updatedAt = $updatedAt;
-//    }
+    /*public function __construct(
+         int $id,
+         string $email,
+         string $password,
+         int $team,
+         Datetime $createdAt,
+         Datetime $updatedAt
+   )
+   {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+        $this->team = $team;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+    }
+    */
 
     /**
      * Static constructor / factory
      */
-    public static function create(): User {
+    public static function create(): User
+    {
         return new self();
     }
 
     /**
      * Function called when encoded with json_encode
      */
-    public function jsonSerialize(): array {
+    public function jsonSerialize(): array
+    {
         return get_object_vars($this);
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function email() {
+    public function email()
+    {
         return $this->email;
     }
 
-    public function password() {
+    public function password()
+    {
         return $this->password;
     }
 
-    public function createdAt() {
+    public function createdAt()
+    {
         return $this->createdAt;
     }
 
-    public function updatedAt() {
+    public function updatedAt()
+    {
         return $this->updatedAt;
     }
 
@@ -70,10 +85,19 @@ class User implements JsonSerializable {
         return null;
     }
 
+    public function getTeam() {
+        return $this->team;
+    }
+
+    public function setTeam($teamId) {
+        $this->team = $teamId;
+    }
+
     /**
      * @param int $id
      */
-    public function setId(int $id) {
+    public function setId(int $id)
+    {
         $this->id = $id;
         return $this;
     }
@@ -81,7 +105,8 @@ class User implements JsonSerializable {
     /**
      * @param string $email
      */
-    public function setEmail(string $email) {
+    public function setEmail(string $email)
+    {
         $this->email = $email;
         return $this;
     }
@@ -89,7 +114,8 @@ class User implements JsonSerializable {
     /**
      * @param string $password
      */
-    public function setPassword(string $password) {
+    public function setPassword(string $password)
+    {
         $this->password = $password;
         return $this;
     }
@@ -97,7 +123,8 @@ class User implements JsonSerializable {
     /**
      * @param DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt(DateTime $createdAt)
+    {
         $this->createdAt = $createdAt;
         return $this;
     }
@@ -105,8 +132,22 @@ class User implements JsonSerializable {
     /**
      * @param DateTime $updatedAt
      */
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt(DateTime $updatedAt)
+    {
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture(string $profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
+
+
+
 }

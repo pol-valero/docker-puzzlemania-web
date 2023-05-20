@@ -10,6 +10,7 @@ class Team implements JsonSerializable {
     private int $id;
     private string $name;
     private int $numMembers;
+    private int $score;
     private DateTime $createdAt;
     private DateTime $updatedAt;
 
@@ -47,6 +48,27 @@ class Team implements JsonSerializable {
     }
 
     /**
+     * @return int
+     */
+    public function numMembers(): int {
+        return $this->numMembers;
+    }
+
+    /**
+     * @return int
+     */
+    public function score(): int {
+        return $this->score;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function createdAt(): DateTime {
+        return $this->createdAt;
+    }
+
+    /**
      * @param int $id
      */
     public function setId(int $id) {
@@ -67,6 +89,14 @@ class Team implements JsonSerializable {
      */
     public function setNumMembers(int $numMembers) {
         $this->numMembers = $numMembers;
+        return $this;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore(int $score) {
+        $this->score = $score;
         return $this;
     }
 
