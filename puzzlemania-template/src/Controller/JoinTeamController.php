@@ -34,6 +34,9 @@ class JoinTeamController {
             $errorTeamStats = $messages['errorTeamStats'][0];
         } else {
             $errorTeamStats = '';
+            if (isset($messages['errorTeamLength'])) {
+                $errorTeamStats = $messages['errorTeamLength'][0];
+            }
         }
 
         $inclompleteTeams = $this->teamRepository->getIncompleteTeams();
@@ -58,6 +61,12 @@ class JoinTeamController {
     public function createTeam(Request $request, Response $response): Response {
         $data = $request->getParsedBody();
         $teamName = $data['teamName'];
+
+        //check if teamName is too long
+        if (strlen($teamName) > 15) {
+            $this->flash->addMessage('errorTeamLength', 'Error: Team name is too long!');
+            return $response->withHeader('Location', '/join');
+        }
 
         $teamId = $this->teamRepository->createTeam($teamName);
         $_SESSION['team_id'] = $teamId;
