@@ -2,7 +2,6 @@
 
 namespace Salle\PuzzleMania\Controller;
 
-use http\Client;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PuzzleMania\Repository\Teams\TeamRepository;
@@ -10,18 +9,21 @@ use Salle\PuzzleMania\Repository\Users\UserRepository;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
-class TeamStatsController {
+class TeamStatsController
+{
 
     public function __construct(
-        private Twig $twig,
+        private Twig           $twig,
         private UserRepository $userRepository,
         private TeamRepository $teamRepository,
-        private Messages $flash
-    ) {
+        private Messages       $flash
+    )
+    {
         //
     }
 
-    public function showStats(Request $request, Response $response): Response {
+    public function showStats(Request $request, Response $response): Response
+    {
 
         if (!isset($_SESSION['team_id'])) {
             $this->flash->addMessage('errorTeamStats', 'Error: You have not joined a team yet!');
@@ -48,43 +50,64 @@ class TeamStatsController {
             $i++;
         }
 
+
+        if (isset($_SESSION['qr_generated_path'])) {
+            $qrPath = $_SESSION['qr_generated_path'];
+        } else {
+            $qrPath = '';
+        }
+
         return $this->twig->render($response, 'team-stats.twig', [
             'teamInfo' => $teamInfo,
             'teamMembers' => $name,
             'error' => $errorTeam,
-            "userStatus" => $userStatus
+            'userStatus' => $userStatus,
+            'qrUrl' => $qrPath
         ]);
     }
 
-    public function generateQr(Request $request, Response $response): Response {
+    public function generateQr(Request $request, Response $response): Response
+    {
 
-       if(!isset($_SESSION['team_id'])) {
-           return $response->withHeader('Location', '/');
-       }
+        if (!isset($_SESSION['team_id'])) {
+            return $response->withHeader('Location', '/');
+        }
 
-       //TODO: Generate QR code with API
+        $qrCode = 'http://localhost:8030/invite/join/' . $_SESSION['team_id'];
+
         $data = array(
             'symbology' => 'QRCode',
-            'code' => '12345'
+            'code' => $qrCode
         );
 
         $options = array(
             'http' => array(
-                'method'  => 'POST',
-                'content' => json_encode( $data ),
-                'header' =>  "Content-Type: application/json\r\n" .
+                'method' => 'POST',
+                'content' => json_encode($data),
+                'header' => "Content-Type: application/json\r\n" .
                     "Accept: image/png\r\n"
             )
         );
 
-        $context  = stream_context_create( $options );
-        $url = 'http://localhost:8020/BarcodeGenerator';
-        $response2 = file_get_contents( $url, false, $context );
+        $context = stream_context_create($options);
+        $url = 'http://pw-g2_barcode/BarcodeGenerator';
+        $apiResponse = file_get_contents($url, false, $context);
 
-        //file_put_contents('label.png', $response2);
+        $qrPath = 'qrcodes/qrcode.png';
+
+        file_put_contents($qrPath, $apiResponse);
+
+        $_SESSION['qr_generated_path'] = $qrPath;
 
         return $response->withHeader('Location', '/team-stats');
 
     }
 
+    public function downloadQr(Request $request, Response $response): Response
+    {
+
+        //TODO: function to download the image
+
+        return $response->withHeader('Location', '/team-stats');
+    }
 }
