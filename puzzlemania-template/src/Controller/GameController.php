@@ -56,11 +56,17 @@ class GameController {
     }
 
     public function startGame(Request $request, Response $response): Response {
+        // get random riddles
+        $riddles = $this->riddleRepository->getRandomRiddles();
+
+        if (count($riddles) < 3) {
+            // redirect to riddles page
+            return $response->withHeader('Location', '/riddles');
+        }
+
         $_SESSION['currentRiddle'] = 0;
         $_SESSION['gamePoints'] = 10;
 
-        // get random riddles
-        $riddles = $this->riddleRepository->getRandomRiddles();
         $_SESSION['riddle1_id'] = $riddles[0]->getId();
         $_SESSION['riddle2_id'] = $riddles[1]->getId();
         $_SESSION['riddle3_id'] = $riddles[2]->getId();
