@@ -89,6 +89,11 @@ class JoinTeamController {
 
         $_SESSION['team_id'] = $teamId;
 
+        //If a user who is not logged in scans a QR code, he will be redirected to the sign-up page
+        if (!isset($_SESSION['user_id'])) {
+            return $response->withHeader('Location', '/sign-up');
+        }
+
         $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 
         $createdAt = date_create_from_format('Y-m-d H:i:s', $userInfo->createdAt);

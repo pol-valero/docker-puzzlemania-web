@@ -103,11 +103,4 @@ class TeamStatsController
 
     }
 
-    public function downloadQr(Request $request, Response $response): Response
-    {
-
-        //TODO: function to download the image
-
-        return $response->withHeader('Location', '/team-stats');
-    }
 }

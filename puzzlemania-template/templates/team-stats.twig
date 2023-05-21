@@ -24,6 +24,10 @@
     <p>Use this QR to invite other people to the team: </p>
 
     <img src="{{ qrUrl }}" alt="QR picture" width="200" height="200">
+
+        <p>Click on the button to download the QR</p>
+        <a href="{{ qrUrl }}" class="dark-button" download="imageName">Download</a>
+
     {% endif %}
 
 {% endblock %}
