@@ -25,7 +25,7 @@ class JoinTeamController {
     public function joinTeam(Request $request, Response $response): Response {
         if (isset($_SESSION['team_id'])) {
             $this->flash->addMessage('errorTeam', 'Error: You are already in a team!');
-           return $response->withHeader('Location', '/team-stats');
+            return $response->withHeader('Location', '/team-stats');
         }
 
         $messages = $this->flash->getMessages();
@@ -60,6 +60,7 @@ class JoinTeamController {
         $teamName = $data['teamName'];
 
         $teamId = $this->teamRepository->createTeam($teamName);
+        $_SESSION['team_id'] = $teamId;
 
         $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 
