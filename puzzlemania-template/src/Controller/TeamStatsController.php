@@ -2,6 +2,7 @@
 
 namespace Salle\PuzzleMania\Controller;
 
+use http\Client;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PuzzleMania\Repository\Teams\TeamRepository;
@@ -62,6 +63,25 @@ class TeamStatsController {
        }
 
        //TODO: Generate QR code with API
+        $data = array(
+            'symbology' => 'QRCode',
+            'code' => '12345'
+        );
+
+        $options = array(
+            'http' => array(
+                'method'  => 'POST',
+                'content' => json_encode( $data ),
+                'header' =>  "Content-Type: application/json\r\n" .
+                    "Accept: image/png\r\n"
+            )
+        );
+
+        $context  = stream_context_create( $options );
+        $url = 'http://localhost:8020/BarcodeGenerator';
+        $response2 = file_get_contents( $url, false, $context );
+
+        //file_put_contents('label.png', $response2);
 
         return $response->withHeader('Location', '/team-stats');
 
