@@ -6,7 +6,22 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 CREATE DATABASE IF NOT EXISTS `puzzlemania`;
 USE `puzzlemania`;
 
+DROP TABLE IF EXISTS `games`;
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `teams`;
+DROP TABLE IF EXISTS `riddles`;
+
+CREATE TABLE `teams`
+(
+    `id`            INT             NOT NULL AUTO_INCREMENT,
+    `name`          VARCHAR(255)    NOT NULL,
+    `numMembers`    INT             NOT NULL,
+    `score`         INT             NOT NULL,
+    `createdAt`     DATETIME        NOT NULL,
+    `updatedAt`     DATETIME        NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `users`
 (
     `id`                INT                                                     NOT NULL AUTO_INCREMENT,
@@ -20,7 +35,6 @@ CREATE TABLE `users`
     FOREIGN KEY (team) REFERENCES teams (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `riddles`;
 CREATE TABLE `riddles`
 (
     `riddle_id` INT          NOT NULL AUTO_INCREMENT,
@@ -31,19 +45,6 @@ CREATE TABLE `riddles`
     FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `teams`;
-CREATE TABLE `teams`
-(
-    `id`            INT             NOT NULL AUTO_INCREMENT,
-    `name`          VARCHAR(255)    NOT NULL,
-    `numMembers`    INT             NOT NULL,
-    `score`         INT             NOT NULL,
-    `createdAt`     DATETIME        NOT NULL,
-    `updatedAt`     DATETIME        NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `games`;
 CREATE TABLE `games`
 (
     `id`            INT         NOT NULL AUTO_INCREMENT,

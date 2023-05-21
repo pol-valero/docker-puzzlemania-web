@@ -1,0 +1,8 @@
+@import "base.css";
+
+/*** HEADER STYLES ***/
+#navbar-team-stats-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}

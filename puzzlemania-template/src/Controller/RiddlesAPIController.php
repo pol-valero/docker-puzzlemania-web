@@ -97,7 +97,7 @@ class RiddlesAPIController {
                ->setAnswer($data['answer'])
                ->setUserId($data['userId']);
            $id = $this->riddleRepository->createRiddle($riddle);
-           $riddle->setId($id); // Return riddle with id set
+           $riddle->setId(intval($id)); // Return riddle with id set
            $response->getBody()->write(json_encode($riddle));
            return $response->withStatus(201);
         }else{
