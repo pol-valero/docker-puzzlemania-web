@@ -75,6 +75,8 @@ class JoinTeamController {
 
         $this->userRepository->updateUser($user);
 
+        $_SESSION['team_id'] = $teamId;
+
         return $response->withHeader('Location', '/team-stats');
 
     }
