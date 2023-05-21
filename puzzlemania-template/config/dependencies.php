@@ -104,10 +104,6 @@ function addDependencies(ContainerInterface $container): void {
         }
     );
 
-    /*$container->set(AuthorizationMiddleware::class, function (ContainerInterface $container) {
-        return new AuthorizationMiddleware($container->get('flash'));
-    });*/
-
     $container->set(
         FileController::class,
         function (ContainerInterface $c) {

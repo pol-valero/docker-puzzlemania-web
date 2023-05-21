@@ -5,6 +5,9 @@
 {% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
 
 {% block content %}
+
+    <h1 class="error-message">{{ error }}</h1>
+
     <div id="home-description-block">
         <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>
         <p class="description">

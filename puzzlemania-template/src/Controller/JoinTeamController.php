@@ -34,6 +34,9 @@ class JoinTeamController {
             $errorTeamStats = $messages['errorTeamStats'][0];
         } else {
             $errorTeamStats = '';
+            if (isset($messages['errorTeamLength'])) {
+                $errorTeamStats = $messages['errorTeamLength'][0];
+            }
         }
 
         $inclompleteTeams = $this->teamRepository->getIncompleteTeams();
@@ -59,6 +62,12 @@ class JoinTeamController {
         $data = $request->getParsedBody();
         $teamName = $data['teamName'];
 
+        //check if teamName is too long
+        if (strlen($teamName) > 15) {
+            $this->flash->addMessage('errorTeamLength', 'Error: Team name is too long!');
+            return $response->withHeader('Location', '/join');
+        }
+
         $teamId = $this->teamRepository->createTeam($teamName);
         $_SESSION['team_id'] = $teamId;
 
@@ -76,6 +85,8 @@ class JoinTeamController {
 
         $this->userRepository->updateUser($user);
 
+        $_SESSION['team_id'] = $teamId;
+
         return $response->withHeader('Location', '/team-stats');
 
     }
@@ -86,6 +97,11 @@ class JoinTeamController {
         $teamId = (int)$teamId;
 
         $_SESSION['team_id'] = $teamId;
+
+        //If a user who is not logged in scans a QR code, he will be redirected to the sign-up page
+        if (!isset($_SESSION['user_id'])) {
+            return $response->withHeader('Location', '/sign-up');
+        }
 
         $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 

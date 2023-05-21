@@ -34,6 +34,14 @@ class SignInController {
     public function showHome(Request $request, Response $response): Response {
         $userStatus = [];
 
+        $messages = $this->flash->getMessages();
+
+        if (isset($messages['notifications'])) {
+            $error = $messages['notifications'][0];
+        } else {
+            $error = '';
+        }
+
         if (!isset($_SESSION['user_id'])) {
             $username = "stranger";
         } else {
@@ -43,7 +51,8 @@ class SignInController {
         }
             return $this->twig->render($response, 'home.twig', [
                 "username" => $username,
-                "userStatus" => $userStatus
+                "userStatus" => $userStatus,
+                "error" => $error
             ]);
     }
 
