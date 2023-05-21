@@ -33,23 +33,16 @@ final class FileController
 
     public function showProfileFormAction(Request $request, Response $response): Response
     {
-        if(!isset($_SESSION['user_id'])){
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            return $response->withHeader('Location',
-                $routeParser->urlFor("signIn"))
-                ->withStatus(302);
-        }else{
-            $userStatus['logged'] = true;
-            return $this->twig->render(
-                $response,
-                'upload.twig',
-                [
-                    'email' => $this->userRepository->getUserById(intval($_SESSION['user_id']))->email,
-                    'profile_picture' => "/uploads/" . $this->userRepository->getUserById(intval($_SESSION['user_id']))->profile_picture,
-                    'userStatus' => $userStatus
-                ]
-            );
-        }
+        $userStatus['logged'] = true;
+        return $this->twig->render(
+            $response,
+            'upload.twig',
+            [
+                'email' => $this->userRepository->getUserById(intval($_SESSION['user_id']))->email,
+                'profile_picture' => "/uploads/" . $this->userRepository->getUserById(intval($_SESSION['user_id']))->profile_picture,
+                'userStatus' => $userStatus
+            ]
+        );
     }
 
 

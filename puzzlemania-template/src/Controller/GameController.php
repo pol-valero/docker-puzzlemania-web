@@ -26,11 +26,6 @@ class GameController {
 
     public function newGame(Request $request, Response $response): Response {
         $data = [];
-        // check if logged
-        if (!isset($_SESSION['user_id'])) {
-            // redirect to home
-            return $response->withHeader('Location', '/');
-        }
 
         $userStatus['logged'] = isset($_SESSION['user_id']);
 

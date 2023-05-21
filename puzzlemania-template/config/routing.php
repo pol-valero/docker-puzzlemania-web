@@ -37,7 +37,7 @@ function addRoutes(App $app, Container $container): void
     /* GAME */
     $app->get(
         '/game', GameController::class . ':newGame'
-    )->setName('newGame');
+    )->setName('newGame')->add(AuthorizationMiddleware::class);
 
     $app->post(
         '/game', GameController::class . ':startGame'
@@ -94,7 +94,7 @@ function addRoutes(App $app, Container $container): void
     $app->get(
         '/profile',
         FileController::class . ':showProfileFormAction'
-    )->setName('profile');
+    )->setName('profile')->add(AuthorizationMiddleware::class);
 
     $app->post(
         '/profile',
