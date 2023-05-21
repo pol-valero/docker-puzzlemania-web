@@ -11,8 +11,7 @@ use Slim\Flash\Messages;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-class SignInController
-{
+class SignInController {
     private ValidatorService $validator;
 
     public function __construct(
@@ -24,8 +23,7 @@ class SignInController
         $this->validator = new ValidatorService();
     }
 
-    public function showSignInForm(Request $request, Response $response): Response
-    {
+    public function showSignInForm(Request $request, Response $response): Response {
         $messages = $this->flash->getMessages();
 
         $notifications = $messages['notifications'] ?? [];
@@ -33,8 +31,7 @@ class SignInController
         return $this->twig->render($response, 'sign-in.twig', ["notifs" => $notifications]);
     }
 
-    public function showHome(Request $request, Response $response): Response
-    {
+    public function showHome(Request $request, Response $response): Response {
         $userStatus = [];
 
         if (!isset($_SESSION['user_id'])) {
@@ -50,8 +47,7 @@ class SignInController
             ]);
     }
 
-    public function signIn(Request $request, Response $response): Response
-    {
+    public function signIn(Request $request, Response $response): Response {
         $data = $request->getParsedBody();
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
@@ -59,12 +55,15 @@ class SignInController
 
         $errors['email'] = $this->validator->validateEmail($data['email']);
         $errors['password'] = $this->validator->validatePassword($data['password']);
+
         if ($errors['email'] == '') {
             unset($errors['email']);
         }
+
         if ($errors['password'] == '') {
             unset($errors['password']);
         }
+
         if (count($errors) == 0) {
             // Check if the credentials match the user information saved in the database
             $user = $this->userRepository->getUserByEmail($data['email']);
@@ -82,6 +81,7 @@ class SignInController
                 return $response->withHeader('Location', '/')->withStatus(302);
             }
         }
+
         return $this->twig->render(
             $response,
             'sign-in.twig',
@@ -93,10 +93,8 @@ class SignInController
         );
     }
 
-    public function logOut(Request $request, Response $response): Response
-    {
+    public function logOut(Request $request, Response $response): Response {
         session_destroy();
         return $response->withHeader('Location', '/sign-in');
     }
-
 }

@@ -1,3 +1,13 @@
+@import "base.css";
+
+/*** HEADER STYLES ***/
+#navbar-teams-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
+/*** MAIN STYLES ***/
 .dark-button:hover {
     cursor: pointer;
 }

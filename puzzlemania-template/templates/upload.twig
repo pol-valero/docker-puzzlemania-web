@@ -13,12 +13,12 @@
               method="POST">
 
 
-            <input type="text" disabled value="{{ email }}"><br><br>
+            <input type="text" class="form-input" disabled value="{{ email }}"><br><br>
             <img src="{{ profile_picture }}" alt="Profile Picture" width="200" height="200">
 
 
             <input type="file" name="files" readonly    >
-            <input type="submit" value="Upload">
+            <input type="submit" class="primary-button" value="Upload">
 
             {% if errors is defined %}
                 <ol>

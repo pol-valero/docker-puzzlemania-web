@@ -5,7 +5,6 @@ namespace Salle\PuzzleMania\Controller;
 use DateTime;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Salle\PuzzleMania\Model\Team;
 use Salle\PuzzleMania\Model\User;
 use Salle\PuzzleMania\Repository\Teams\TeamRepository;
 use Salle\PuzzleMania\Repository\Users\UserRepository;
@@ -24,11 +23,9 @@ class JoinTeamController {
     }
 
     public function joinTeam(Request $request, Response $response): Response {
-
-
         if (isset($_SESSION['team_id'])) {
             $this->flash->addMessage('errorTeam', 'Error: You are already in a team!');
-           return $response->withHeader('Location', '/team-stats');
+            return $response->withHeader('Location', '/team-stats');
         }
 
         $messages = $this->flash->getMessages();
@@ -40,6 +37,7 @@ class JoinTeamController {
         }
 
         $inclompleteTeams = $this->teamRepository->getIncompleteTeams();
+        $userStatus['logged'] = isset($_SESSION['user_id']);
 
 
         if($inclompleteTeams == null) {
@@ -48,16 +46,21 @@ class JoinTeamController {
             $showIncompleteTeams = true;
         }
 
-        return $this->twig->render($response, 'join-team.twig', ['incompleteTeams' => $inclompleteTeams, 'showIncompleteTeams' => $showIncompleteTeams, 'error' => $errorTeamStats]);
+        return $this->twig->render($response, 'join-team.twig', [
+            'incompleteTeams' => $inclompleteTeams,
+            'showIncompleteTeams' => $showIncompleteTeams,
+            'error' => $errorTeamStats,
+            "userStatus" => $userStatus
+        ]);
 
     }
 
     public function createTeam(Request $request, Response $response): Response {
-
         $data = $request->getParsedBody();
         $teamName = $data['teamName'];
 
         $teamId = $this->teamRepository->createTeam($teamName);
+        $_SESSION['team_id'] = $teamId;
 
         $userInfo = $this->userRepository->getUserById($_SESSION['user_id']);
 
@@ -71,18 +74,13 @@ class JoinTeamController {
         $user->setCreatedAt($createdAt);
         $user->setUpdatedAt(new DateTime());
 
-        //$user = new User ($userInfo->id, $userInfo->email, $userInfo->password, $teamId, $createdAt, new DateTime());
-        //$user->setTeam($teamId);
-        //$user->setUpdatedAt(new DateTime());
-
         $this->userRepository->updateUser($user);
 
         return $response->withHeader('Location', '/team-stats');
 
     }
 
-    public function addUserToTeam(Request $request, Response $response): Response{
-
+    public function addUserToTeam(Request $request, Response $response): Response {
         $teamId = $request->getAttribute('id');
 
         $teamId = (int)$teamId;
@@ -103,13 +101,13 @@ class JoinTeamController {
 
         $this->userRepository->updateUser($user);
 
-        $teamInfo = $this->teamRepository->getTeamById($teamId);
+        //$teamInfo = $this->teamRepository->getTeamById($teamId);
 
-        $updatedNumMembers = $teamInfo->numMembers + 1;
+        //$updatedNumMembers = $teamInfo->numMembers() + 1;
 
-        $this->teamRepository->updateTeam($teamId, $updatedNumMembers, new DateTime());
+        //$this->teamRepository->updateTeam($teamId, $updatedNumMembers, new DateTime());
+        $this->teamRepository->updateTeam($teamId, 1, new DateTime());
 
         return $response->withHeader('Location', '/team-stats');
     }
-
 }

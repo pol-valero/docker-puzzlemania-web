@@ -4,8 +4,7 @@ namespace Salle\PuzzleMania\Model;
 
 use JsonSerializable;
 
-class Riddle implements JsonSerializable
-{
+class Riddle implements JsonSerializable {
     private int $id;
     private int $userId;
     private string $riddle;
@@ -14,47 +13,41 @@ class Riddle implements JsonSerializable
     /**
      * Static constructor / factory
      */
-    public static function create(): Riddle
-    {
+    public static function create(): Riddle {
         return new self();
     }
     /**
      * Function called when encoded with json_encode
      */
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return get_object_vars($this);
     }
 
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * @return int
      */
-    public function getUserId(): int
-    {
+    public function getUserId(): int {
         return $this->userId;
     }
 
     /**
      * @return string
      */
-    public function getRiddle(): string
-    {
+    public function getRiddle(): string {
         return $this->riddle;
     }
 
     /**
      * @return string
      */
-    public function getAnswer(): string
-    {
+    public function getAnswer(): string {
         return $this->answer;
     }
 
@@ -62,8 +55,7 @@ class Riddle implements JsonSerializable
      * @param int $id
      * @return Riddle
      */
-    public function setId(int $id): Riddle
-    {
+    public function setId(int $id): Riddle {
         $this->id = $id;
         return $this;
     }
@@ -72,8 +64,7 @@ class Riddle implements JsonSerializable
      * @param int $userId
      * @return Riddle
      */
-    public function setUserId(int $userId): Riddle
-    {
+    public function setUserId(int $userId): Riddle {
         $this->userId = $userId;
         return $this;
     }
@@ -82,8 +73,7 @@ class Riddle implements JsonSerializable
      * @param string $riddle
      * @return Riddle
      */
-    public function setRiddle(string $riddle): Riddle
-    {
+    public function setRiddle(string $riddle): Riddle {
         $this->riddle = $riddle;
         return $this;
     }
@@ -92,10 +82,8 @@ class Riddle implements JsonSerializable
      * @param string $answer
      * @return Riddle
      */
-    public function setAnswer(string $answer): Riddle
-    {
+    public function setAnswer(string $answer): Riddle {
         $this->answer = $answer;
         return $this;
     }
-
 }

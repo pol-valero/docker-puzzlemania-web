@@ -4,27 +4,6 @@
 
 {% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
 
-{% block header %}
-    <nav id="navbar-menu">
-        <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
-    {% if userStatus['logged'] %}
-        <a id="navbar-game-link" class="navbar-item" href="{{ full_url_for('newGame') }}">Game</a>
-        <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('joinTeam') }}">Teams</a>
-        <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('teamStats') }}">Team stats</a>
-        <a id="navbar-profile-link" class="navbar-item" href="{{ full_url_for('profile') }}">Profile</a>
-    {% endif %}
-        <a id="navbar-api-link">Riddles</a>
-    </nav>
-    <div id="account-buttons">
-        <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
-        <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
-        {% if userStatus['logged'] %}
-        <button onclick="location.href='{{ full_url_for('logOut') }}'" class="primary-button">Logout</button>
-        {% endif %}
-
-    </div>
-{% endblock %}
-
 {% block content %}
     <div id="home-description-block">
         <h1 data-cy="home__welcomeMsg">Hello {{ username }}!</h1>

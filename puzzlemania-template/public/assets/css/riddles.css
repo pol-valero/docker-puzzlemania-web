@@ -1,5 +1,11 @@
 @import "base.css";
 
+#navbar-api-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
 #riddles-unordered-list {
     display: flex;
     flex-direction: column;

@@ -6,8 +6,7 @@ namespace Salle\PuzzleMania\Repository\Riddles;
 
 use Salle\PuzzleMania\Model\Riddle;
 
-interface RiddleRepository
-{
+interface RiddleRepository {
     public function getRiddles() : array;
     public function createRiddle(Riddle $riddle);
     public function getRiddleById(int $id) : ?Riddle;

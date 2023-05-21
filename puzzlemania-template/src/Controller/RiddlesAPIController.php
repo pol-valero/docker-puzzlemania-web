@@ -11,14 +11,12 @@ use Salle\PuzzleMania\Repository\Riddles\RiddleRepository;
 use Salle\PuzzleMania\Repository\Users\UserRepository;
 use Slim\Views\Twig;
 
-class RiddlesAPIController
-{
+class RiddlesAPIController {
     private Twig $twig;
     private RiddleRepository $riddleRepository;
     private UserRepository $userRepository;
 
-    public function __construct(Twig $twig, RiddleRepository $riddleRepository, UserRepository $userRepository)
-    {
+    public function __construct(Twig $twig, RiddleRepository $riddleRepository, UserRepository $userRepository) {
         $this->twig = $twig;
         $this->riddleRepository = $riddleRepository;
         $this->userRepository = $userRepository;
@@ -29,13 +27,16 @@ class RiddlesAPIController
     public function showRiddles(Request $request, Response $response): Response
     {
         $riddles = $this->riddleRepository->getRiddles();
+        $userStatus['logged'] = isset($_SESSION['user_id']);
+
         return $this->twig->render(
             $response,
             'riddles.twig',
             [
                 'riddleslist' => true,
                 'riddleExists' => true,
-                'riddles' => $riddles
+                'riddles' => $riddles,
+                "userStatus" => $userStatus
             ]
         );
     }
@@ -45,6 +46,8 @@ class RiddlesAPIController
     {
         $id = intval($args['id']);
         $riddle = $this->riddleRepository->getRiddleById($id);
+        $userStatus['logged'] = isset($_SESSION['user_id']);
+
         if($riddle) {$riddle = [$riddle];} // Used to pass an array to twig and reuse the same template
 
         if(!$riddle){
@@ -54,7 +57,8 @@ class RiddlesAPIController
                 [
                     'riddleslist' => false,
                     'riddles' => false,
-                    'riddleExists' => false
+                    'riddleExists' => false,
+                    "userStatus" => $userStatus
                 ]
             );
         }else{
@@ -65,12 +69,12 @@ class RiddlesAPIController
                 [
                     'riddleslist' => false,
                     'riddleExists' => true,
-                    'riddles' => $riddle
+                    'riddles' => $riddle,
+                    "userStatus" => $userStatus
                 ]
             );
         }
     }
-
 
     // GET /api/riddle
     public function getRiddles(Request $request, Response $response): Response{
@@ -91,9 +95,9 @@ class RiddlesAPIController
             $riddle = Riddle::create()
                ->setRiddle($data['riddle'])
                ->setAnswer($data['answer'])
-               ->setUserId($data['userId']);
+               ->setUserId(intval($data['userId']));
            $id = $this->riddleRepository->createRiddle($riddle);
-           $riddle->setId($id); // Return riddle with id set
+           $riddle->setId(intval($id)); // Return riddle with id set
            $response->getBody()->write(json_encode($riddle));
            return $response->withStatus(201);
         }else{
@@ -164,7 +168,6 @@ class RiddlesAPIController
         }
         return $errors;
     }
-
 
     private function validatePostFields($data): array{
         $errors=['message' => ''];

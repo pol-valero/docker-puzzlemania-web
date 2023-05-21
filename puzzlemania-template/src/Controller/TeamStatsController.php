@@ -28,6 +28,7 @@ class TeamStatsController {
         }
 
         $messages = $this->flash->getMessages();
+        $userStatus['logged'] = isset($_SESSION['user_id']);
 
         if (isset($messages['errorTeam'])) {
             $errorTeam = $messages['errorTeam'][0];
@@ -46,7 +47,12 @@ class TeamStatsController {
             $i++;
         }
 
-        return $this->twig->render($response, 'team-stats.twig', ['teamInfo' => $teamInfo, 'teamMembers' => $name, 'error' => $errorTeam]);
+        return $this->twig->render($response, 'team-stats.twig', [
+            'teamInfo' => $teamInfo,
+            'teamMembers' => $name,
+            'error' => $errorTeam,
+            "userStatus" => $userStatus
+        ]);
     }
 
 }

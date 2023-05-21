@@ -16,27 +16,72 @@ use Slim\App;
 function addRoutes(App $app, Container $container): void
 {
     /* HOME */
-    $app->get('/', SignInController::class . ':showHome')->setName('showHome');
+    $app->get(
+        '/', SignInController::class . ':showHome'
+    )->setName('showHome');
+
     /* LOGIN AND REGISTER */
-    $app->get('/sign-in', SignInController::class . ':showSignInForm')->setName('signIn');
-    $app->post('/sign-in', SignInController::class . ':signIn');
-    $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
-    $app->post('/sign-up', SignUpController::class . ':signUp');
+    $app->get(
+        '/sign-in', SignInController::class . ':showSignInForm'
+    )->setName('signIn');
+    $app->post(
+        '/sign-in', SignInController::class . ':signIn'
+    );
+    $app->get(
+        '/sign-up', SignUpController::class . ':showSignUpForm'
+    )->setName('signUp');
+    $app->post(
+        '/sign-up', SignUpController::class . ':signUp'
+    );
+
     /* GAME */
-    $app->get('/game', GameController::class . ':newGame')->setName('newGame');
+    $app->get(
+        '/game', GameController::class . ':newGame'
+    )->setName('newGame');
+
+    $app->post(
+        '/game', GameController::class . ':startGame'
+    )->setName('startGame');
+
+    $app->get(
+        '/game/{gameId}/riddles/{riddleId}',
+        GameController::class . ':nextRiddle'
+    )->setName('nextRiddle');
+
+    $app->post(
+        '/game/{gameId}/riddles/{riddleId}',
+        GameController::class . ':checkRiddleAnswer'
+    )->setName('checkRiddleAnswer');
+
     /* TEAMS */
-    $app->get('/join', JoinTeamController::class . ':joinTeam')->setName('joinTeam')->add(AuthorizationMiddleware::class);
+    $app->get(
+        '/join',
+        JoinTeamController::class . ':joinTeam'
+    )->setName('joinTeam')->add(AuthorizationMiddleware::class);
 
-    $app->get('/team-stats', TeamStatsController::class . ':showStats')->setName('teamStats')->add(AuthorizationMiddleware::class);
+    $app->get(
+        '/team-stats',
+        TeamStatsController::class . ':showStats'
+    )->setName('teamStats')->add(AuthorizationMiddleware::class);
 
-    $app->get('/log-out', SignInController::class . ':logOut')->setName('logOut');
+    $app->get(
+        '/log-out',
+        SignInController::class . ':logOut'
+    )->setName('logOut');
 
     $app->post('/join', JoinTeamController::class . ':createTeam');
 
-    $app->get('/invite/join/{id:.*}', JoinTeamController::class . ':addUserToTeam')->setName('addUserToTeam');
+    $app->get(
+        '/invite/join/{id:.*}',
+        JoinTeamController::class . ':addUserToTeam'
+    )->setName('addUserToTeam');
 
     /* RIDDLES */
-    $app->get('/riddles', RiddlesAPIController::class . ':showRiddles');
+    $app->get(
+        '/riddles',
+        RiddlesAPIController::class . ':showRiddles'
+    )->setName('showRiddles');
+
     $app->get('/riddles/{id}', RiddlesAPIController::class . ':showRiddle');
 
     $app->get('/api/riddle', RiddlesAPIController::class . ':getRiddles');
@@ -46,6 +91,13 @@ function addRoutes(App $app, Container $container): void
     $app->delete('/api/riddle/{id}', RiddlesAPIController::class . ':deleteRiddle');
 
     /* PROFILE */
-    $app->get('/profile', FileController::class . ':showProfileFormAction')->setName('profile');
-    $app->post('/profile', FileController::class . ':uploadFileAction')->setName('upload');
+    $app->get(
+        '/profile',
+        FileController::class . ':showProfileFormAction'
+    )->setName('profile');
+
+    $app->post(
+        '/profile',
+        FileController::class . ':uploadFileAction'
+    )->setName('upload');
 }

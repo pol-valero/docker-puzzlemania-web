@@ -18,7 +18,6 @@ final class MySQLTeamRepository implements TeamRepository {
     }
 
     public function createTeam(string $teamName) {
-
         $numMembers = 1;
         $createdAt = new DateTime();
         $updatedAt = new DateTime();
@@ -27,13 +26,16 @@ final class MySQLTeamRepository implements TeamRepository {
         $updatedAt = $updatedAt->format(self::DATE_FORMAT);
 
         $query = <<<'QUERY'
-        INSERT INTO teams(name, numMembers, createdAt, updatedAt)
-        VALUES(:name, :numMembers, :createdAt, :updatedAt)
+        INSERT INTO teams(name, numMembers, score, createdAt, updatedAt)
+        VALUES(:name, :numMembers, :score, :createdAt, :updatedAt)
         QUERY;
+
+        $score = 0;
 
         $statement = $this->databaseConnection->prepare($query);
         $statement->bindParam('name', $teamName, PDO::PARAM_STR);
         $statement->bindParam('numMembers', $numMembers, PDO::PARAM_INT);
+        $statement->bindParam('score', $score, PDO::PARAM_INT);
         $statement->bindParam('createdAt', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updatedAt', $updatedAt, PDO::PARAM_STR);
 
@@ -49,7 +51,7 @@ final class MySQLTeamRepository implements TeamRepository {
 
     public function updateTeam(int $teamId, int $numMembers, DateTime $updatedAt) {
         $query = <<<'QUERY'
-        UPDATE teams SET numMembers = :numMembers, updatedAt = :updatedAt WHERE id = :id
+        UPDATE teams SET numMembers = numMembers + :numMembers, updatedAt = :updatedAt WHERE id = :id
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
@@ -61,14 +63,14 @@ final class MySQLTeamRepository implements TeamRepository {
         $statement->bindParam('id', $teamId, PDO::PARAM_INT);
 
         $statement->execute();
-
     }
 
-    public function getTeamByName(string $name) {
+    public function getTeamByName(string $name): ?Team {
         // TODO: Implement getTeamByName() method.
+        return null;
     }
 
-    public function getTeamById(int $id) {
+    public function getTeamById(int $id): ?Team {
         $query = <<<'QUERY'
         SELECT * FROM teams WHERE id = :id
         QUERY;
@@ -82,13 +84,36 @@ final class MySQLTeamRepository implements TeamRepository {
         $count = $statement->rowCount();
         if ($count > 0) {
             $row = $statement->fetch(PDO::FETCH_OBJ);
-            return $row;
+
+            return Team::create()
+                ->setId($row->id)
+                ->setName($row->name)
+                ->setNumMembers($row->numMembers)
+                ->setScore($row->score);
         }
         return null;
     }
 
-    public function getAllTeams() {
+    public function getAllTeams(): ?array {
         // TODO: Implement getAllTeams() method.
+        return null;
+    }
+
+    public function increaseTeamScore(int $id, int $gamePoints): void {
+        $query = <<<'QUERY'
+        UPDATE teams SET score = score + :score, updatedAt = :updatedAt WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $dateTime = new DateTime();
+        $updatedAt = $dateTime->format(self::DATE_FORMAT);
+
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+        $statement->bindParam('score', $gamePoints, PDO::PARAM_INT);
+        $statement->bindParam('updatedAt', $updatedAt, PDO::PARAM_STR);
+
+        $statement->execute();
     }
 
     public function getIncompleteTeams() {

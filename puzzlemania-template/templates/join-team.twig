@@ -1,31 +1,10 @@
 {% extends "base.twig" %}
 
+{% block title %}Teams | PuzzleMania{% endblock %}
+
 {% block styles %}
-    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">
-    {<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/join-team.css">
+    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/join-team.css">
 {% endblock %}
-
-
-
-{% block header %}
-
-    <!-- TODO: Put the header in the base.twig so that when we extend from it we already have the header-->
-
-    <nav id="navbar-menu">
-        <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
-        <a id="navbar-game-link" class="navbar-item" href="{{ full_url_for('newGame') }}">Game</a>
-        <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('joinTeam') }}">Teams</a>
-        <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('teamStats') }}">Team stats</a>
-        <a id="navbar-profile-link" class="navbar-item">Profile</a>
-        <a id="navbar-api-link">Riddles</a>
-    </nav>
-    <div id="account-buttons">
-        <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
-        <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
-        <button onclick="location.href='{{ full_url_for('logOut') }}'" class="primary-button">Logout</button>
-    </div>
-{% endblock %}
-
 
 {% block content %}
 
@@ -37,8 +16,8 @@
     {% if showIncompleteTeams == false %}
     <p>No incomplete teams are available. Enter the name of the new team.</p>
     <form method="POST">
-        <input type="text" name="teamName" placeholder="Team name" required>
-        <input type="submit" value="Create team">
+        <input type="text" class="form-input" name="teamName" placeholder="Team name" required>
+        <input type="submit" class="light-secondary-button" value="Create team">
     </form>
     {% endif %}
 
@@ -55,7 +34,4 @@
         </ul>
 
     {% endif %}
-
-
-
 {% endblock %}

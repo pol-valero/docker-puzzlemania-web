@@ -10,6 +10,7 @@ class Team implements JsonSerializable {
     private int $id;
     private string $name;
     private int $numMembers;
+    private int $score;
     private DateTime $createdAt;
     private DateTime $updatedAt;
 
@@ -28,7 +29,7 @@ class Team implements JsonSerializable {
         return new self();
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return get_object_vars($this);
     }
 
@@ -44,5 +45,66 @@ class Team implements JsonSerializable {
      */
     public function name(): string {
         return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function numMembers(): int {
+        return $this->numMembers;
+    }
+
+    /**
+     * @return int
+     */
+    public function score(): int {
+        return $this->score;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function createdAt(): DateTime {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id) {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param int $numMembers
+     */
+    public function setNumMembers(int $numMembers) {
+        $this->numMembers = $numMembers;
+        return $this;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore(int $score) {
+        $this->score = $score;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }
