@@ -72,7 +72,9 @@ final class FileController
             }
 
             // Check if the file size is less than 1MB
-            // echo $uploadedFile->getSize();
+            if ($uploadedFile->getSize() > 1000000) {
+                $errors[] = self::INVALID_SIZE_ERROR;
+            }
 
             $name = $uploadedFile->getClientFilename();
             $fileInfo = pathinfo($name);
