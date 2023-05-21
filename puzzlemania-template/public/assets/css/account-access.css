@@ -9,6 +9,6 @@ p, h1, label {
     color: #2D1E2F;
 }
 
-a {
+p > a {
     color: #00b1ff;
 }
