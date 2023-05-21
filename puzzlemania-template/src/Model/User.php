@@ -13,21 +13,28 @@ class User implements JsonSerializable
     private int $id;
     private string $email;
     private string $password;
+    private int $team;
     private Datetime $createdAt;
     private Datetime $updatedAt;
+    private string $profilePicture;
 
-//    public function __construct(
-//        string   $email,
-//        string   $password,
-//        Datetime $createdAt,
-//        Datetime $updatedAt
-//    )
-//    {
-//        $this->email = $email;
-//        $this->password = $password;
-//        $this->createdAt = $createdAt;
-//        $this->updatedAt = $updatedAt;
-//    }
+    /*public function __construct(
+         int $id,
+         string $email,
+         string $password,
+         int $team,
+         Datetime $createdAt,
+         Datetime $updatedAt
+   )
+   {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+        $this->team = $team;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+    }
+    */
 
     /**
      * Static constructor / factory
@@ -68,6 +75,22 @@ class User implements JsonSerializable
     public function updatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function team() {
+        if (isset($team)) {
+            return $this->team;
+        }
+
+        return null;
+    }
+
+    public function getTeam() {
+        return $this->team;
+    }
+
+    public function setTeam($teamId) {
+        $this->team = $teamId;
     }
 
     /**
@@ -114,6 +137,16 @@ class User implements JsonSerializable
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture(string $profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
 
 
 

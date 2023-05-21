@@ -1,0 +1,45 @@
+@import "base.css";
+
+#navbar-api-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
+#riddles-unordered-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0 0px;
+    margin: 0;
+}
+
+.riddles-list-item {
+    background-color: #FFCA3A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    width: auto;
+}
+
+.riddles-list-item > p {
+    text-align: left;
+    margin: 0;
+}
+
+.riddles-list-item ~ .riddles-list-item {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.riddles-list-item-question {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.riddles-list-item-answer {
+    font-style: italic;
+    font-size: 1.1em;
+}

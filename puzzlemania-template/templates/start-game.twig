@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block title %}Game | PuzzleMania{% endblock %}
+
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/game-intro.css">{% endblock %}
+
+{% block content %}
+    <div id="game-header-block">
+        <h1>New game</h1>
+    </div>
+    <div id="game-instructions-block">
+        <h2>{{ data.team }}</h2>
+        <p>
+            <b>Instructions:</b><br>
+            When starting the game, you will have 10 points. You will be presented a total of 3 riddles,
+            one at a time. If you answer the riddle correctly, you will gain 10 points, but if the answer
+            is incorrect you will 10 points. The game ends when you run out of points or when you have
+            answered the 3 riddles. If you end the game with points, they will be added to {{ data.team }}'s
+            score.
+        </p>
+    </div>
+    <div id="start-game-button">
+        <form action="{{ formAction }}" method="POST">
+            <input class="primary-button big-button" type="submit" value="Start">
+        </form>
+    </div>
+{% endblock %}

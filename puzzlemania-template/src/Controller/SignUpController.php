@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Salle\PuzzleMania\Controller;
 
-use Salle\PuzzleMania\Service\ValidatorService;
-use Salle\PuzzleMania\Repository\UserRepository;
-use Salle\PuzzleMania\Model\User;
-
+use DateTime;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
+use Salle\PuzzleMania\Model\User;
+use Salle\PuzzleMania\Repository\Users\UserRepository;
+use Salle\PuzzleMania\Service\ValidatorService;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
-
-use DateTime;
 
 final class SignUpController
 {
@@ -77,6 +74,15 @@ final class SignUpController
                 ->setCreatedAt(new DateTime())
                 ->setUpdatedAt(new DateTime());
             $this->userRepository->createUser($user);
+
+            //If the team_id is set in the session, it means that the user has scanned a QR code and therefore
+            //we add him to the team automatically and redirect him to the team stats page
+            if (isset($_SESSION['team_id'])) {
+                $_SESSION['user_id'] = $this->userRepository->getUserByEmail($data['email'])->id;
+                $inviteUrl = '/invite/join/'.$_SESSION['team_id'];
+                return $response->withHeader('Location', $inviteUrl);
+            }
+
             return $response->withHeader('Location', '/sign-in')->withStatus(302);
         }
         return $this->twig->render(

@@ -1,0 +1,23 @@
+@import "base.css";
+
+/*** HEADER STYLES ***/
+#navbar-teams-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
+/*** MAIN STYLES ***/
+.dark-button:hover {
+    cursor: pointer;
+}
+
+.dark-button {
+    background-color: rgba(196, 191, 191, 0.15);
+    border-radius: 5px;
+    border: 2px solid #2c2c2c;
+    padding: 5px 7px;
+    font-weight: bold;
+    color: #656060;
+    margin: 4px;
+}

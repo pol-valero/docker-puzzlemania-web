@@ -1,0 +1,33 @@
+{% extends "base.twig" %}
+
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/team-stats.css">{% endblock %}
+
+{% block content %}
+    <h1 class="error-message">{{ error }}</h1>
+    <h2>Access your team's stats</h2>
+
+    <p>Name of the team: {{ teamInfo.name }}</p>
+    <p>Current number of team members: {{ teamInfo.numMembers }}</p>
+    <p>List of team members:</p>
+    <ul>
+        {% for teamMember in teamMembers %}
+            <li>{{ teamMember }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total number of team points: {{ teamInfo.score }}</p>
+
+    {% if qrUrl == '' %}
+    <button onclick="location.href='{{ full_url_for('generateQr') }}'" class="dark-button">Generate QR</button>
+    {% endif %}
+
+    {% if qrUrl != '' %}
+    <p>Use this QR to invite other people to the team: </p>
+
+    <img src="{{ qrUrl }}" alt="QR picture" width="200" height="200">
+
+        <p>Click on the button to download the QR</p>
+        <a href="{{ qrUrl }}" class="dark-button" download="imageName">Download</a>
+
+    {% endif %}
+
+{% endblock %}

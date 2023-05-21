@@ -8,8 +8,32 @@
     <title>{% block title %}{% endblock %}</title>
     {% block head %}
     {% endblock %}
+    {% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/base.css">{% endblock %}
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <header>
+      {% block header %}
+        <nav id="navbar-menu">
+          <a id="navbar-home-link" class="navbar-item" href="{{ full_url_for('showHome') }}">Home</a>
+          {% if userStatus['logged'] %}
+            <a id="navbar-game-link" class="navbar-item" href="{{ full_url_for('newGame') }}">Game</a>
+            <a id="navbar-teams-link" class="navbar-item" href="{{ full_url_for('joinTeam') }}">Teams</a>
+            <a id="navbar-team-stats-link" class="navbar-item" href="{{ full_url_for('teamStats') }}">Team stats</a>
+            <a id="navbar-profile-link" class="navbar-item" href="{{ full_url_for('profile') }}">Profile</a>
+          {% endif %}
+          <a id="navbar-api-link" class="navbar-item" href="{{ full_url_for('showRiddles') }}">Riddles</a>
+        </nav>
+        <div id="account-buttons">
+        {% if userStatus['logged'] %}
+          <button onclick="location.href='{{ full_url_for('logOut') }}'" class="primary-button">Logout</button>
+        {% else %}
+          <button onclick="location.href='{{ full_url_for('signUp') }}'" class="link-button" id="register-button">Register</button>
+          <button onclick="location.href='{{ full_url_for('signIn') }}'" class="primary-button">Login</button>
+        {% endif %}
+        </div>
+      {% endblock %}
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>{% block footer %}<p class="footer-text">Copyright – LaSalle 2022-2023</p>{% endblock %}</footer>
   </body>
 </html>

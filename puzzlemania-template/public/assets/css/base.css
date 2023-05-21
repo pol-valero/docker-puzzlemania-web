@@ -1,0 +1,166 @@
+html {
+    font-family: 'Poppins', Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #2D1E2F;
+    height: 100vh;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 20px;
+    background-color: #2D1E2F;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-item {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#account-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30px;
+    min-width: 10%;
+}
+
+#register-button {
+    color: white;
+}
+
+#register-button:hover {
+    color: #FFCA3A;
+}
+
+main {
+    background-color: #FFFFFA;
+    flex-grow: 1;
+    padding: 20px 30px;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    color: lightgrey;
+}
+
+h1 {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+a:hover {
+    color: #0AD3FF;
+}
+
+p {
+    line-height: 1.25;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 0.1s;
+}
+
+.description {
+    line-height: 1.5;
+}
+
+.primary-button {
+    background-color: #0AD3FF;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    color: #2D1E2F;
+    padding: 5px 7px;
+}
+
+.primary-button:hover {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+.dark-secondary-button {
+    background-color: rgba(255, 255, 240, 15%);
+    border-radius: 5px;
+    border: 2px solid #0AD3FF;
+    padding: 5px 7px;
+    font-weight: bold;
+    color: #0AD3FF;
+}
+
+.dark-secondary-button:hover {
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.light-secondary-button {
+    background-color: transparent;
+    border-radius: 5px;
+    border: 2px solid #00b1ff;
+    padding: 5px 7px;
+    font-weight: bold;
+    color: #00b1ff;
+}
+
+.light-secondary-button:hover {
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.link-button {
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+}
+
+.link-button:hover {
+    color: #FFCA3A;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.form-input {
+    border-radius: 5px;
+    border: 2px solid lightgrey;
+    background-color: white;
+    color: #2D1E2F;
+    padding: 5px;
+}
+
+.form-input:focus {
+    border-color: #FFCA3A;
+    outline: none;
+}
+
+.error-message {
+    color: #E3170A;
+}
+
+.footer-text {
+    color: lightgrey;
+}
+
+.big-button {
+    width: 100px;
+    height: 50px;
+    font-size: 1.4em;
+}

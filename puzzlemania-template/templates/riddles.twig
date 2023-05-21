@@ -1,0 +1,35 @@
+{% extends "base.twig" %}
+
+{% block title %}Riddles | PuzzleMania{% endblock %}
+
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/riddles.css">{% endblock %}
+
+{% block content %}
+    {% if riddleslist == true %}
+        <h1>Riddles List</h1>
+    {% else %}
+        <h1>Riddle Info</h1>
+    {% endif %}
+
+    {% if riddleExists == false and riddleslist == false %}
+        <p>Riddle with id {{ riddle.id }} does not exist</p>
+    {% endif %}
+
+    {% if riddles == null and riddleExists != false %}
+        <div id="riddles-empty">
+            <p>There are no riddles yet!</p>
+        </div>
+    {% else %}
+        <div id="riddles-list">
+            <ul id="riddles-unordered-list">
+                {% for riddle in riddles %}
+                    <li class="riddles-list-item">
+                        <p class="riddles-list-item-question">Question: {{ riddle.riddle }}</p>
+                        <p class="riddles-list-item-answer">Answer: {{ riddle.answer }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

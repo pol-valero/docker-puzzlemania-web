@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+
+{% block title %}Teams | PuzzleMania{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/join-team.css">
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="error-message">{{ error }}</h1>
+
+    <h2>Join or create a team if you don't belong to one already</h2>
+
+    <!-- If there are no incomplete teams, show the form to create a new team -->
+    {% if showIncompleteTeams == false %}
+    <p>No incomplete teams are available. Enter the name of the new team.</p>
+    <form method="POST">
+        <input type="text" class="form-input" name="teamName" placeholder="Team name" required>
+        <input type="submit" class="light-secondary-button" value="Create team">
+    </form>
+    {% endif %}
+
+    <!-- If there is a single incomplete teams, we show the list of all the incomplete teams -->
+    {% if showIncompleteTeams == true %}
+        <p>Here is the list of incomplete teams. Join one of the teams by clicking on its name </p>
+        <ul>
+            {% for incompleteTeam in incompleteTeams %}
+                <li>
+                    <button onclick="location.href='/invite/join/{{ incompleteTeam['id'] }}'" class="dark-button" value="{{ incompleteTeam['id'] }}">{{ incompleteTeam['name'] }}</button>
+                    <label>Number of members: {{ incompleteTeam['numMembers'] }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+{% endblock %}

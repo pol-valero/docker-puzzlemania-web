@@ -1,0 +1,47 @@
+@import "base.css";
+
+#navbar-game-link {
+    color: #0AD3FF;
+    font-weight: bold;
+    border-bottom: 2px solid #0AD3FF;
+}
+
+main {
+    background-color: #FFCA3A;
+}
+
+.game-riddle-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 2%;
+    margin: 6% 25% 4% 25%;
+    border-radius: 35px;
+    background-color: #FFFFFA;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: justify;
+}
+
+.game-riddle-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 40px;
+}
+
+#game-final-score {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+#game-summary-button {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    width: 75px;
+    height: 40px;
+    font-size: 1.1em;
+}
