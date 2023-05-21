@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 
-{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/home.css">{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{{ full_url_for('showHome') }}assets/css/join-team.css">{% endblock %}
 
 {% block content %}
     <h1 class="error-message">{{ error }}</h1>
@@ -15,4 +15,11 @@
         {% endfor %}
     </ul>
     <p>Total number of team points: {{ teamInfo.score }}</p>
+
+    <button onclick="location.href='{{ full_url_for('generateQr') }}'" class="dark-button">Generate QR</button>
+
+    <p>Use this QR to invite other people to the team: </p>
+
+    <img src="/uploads/profile_placeholder.png" alt="QR picture" width="200" height="200">
+
 {% endblock %}

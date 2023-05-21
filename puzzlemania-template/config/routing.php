@@ -100,4 +100,9 @@ function addRoutes(App $app, Container $container): void
         '/profile',
         FileController::class . ':uploadFileAction'
     )->setName('upload');
+
+    $app->get(
+        '/generate-qr',
+        TeamStatsController::class . ':generateQr'
+    )->setName('generateQr')->add(AuthorizationMiddleware::class);
 }

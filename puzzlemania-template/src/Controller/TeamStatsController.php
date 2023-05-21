@@ -55,4 +55,16 @@ class TeamStatsController {
         ]);
     }
 
+    public function generateQr(Request $request, Response $response): Response {
+
+       if(!isset($_SESSION['team_id'])) {
+           return $response->withHeader('Location', '/');
+       }
+
+       //TODO: Generate QR code with API
+
+        return $response->withHeader('Location', '/team-stats');
+
+    }
+
 }
