@@ -59,7 +59,7 @@ CREATE DATABASE test;
 `
 
 function recreateTestDatabase() {
-    // Dump puzzlemania database
+    // Dump puzzlemania-template database
     cy.exec(`mysqldump -u${exportFrom().user} -p${exportFrom().password} -h${exportFrom().host} --no-data ${exportFrom().database} > ${dumpFile}`)
         .then(() => cy.exec(`echo "${createDatabaseStatement}" > ${createFile}`))
         .then(() => cy.exec(`mysql -u${importTo().user} -p${importTo().password} -h${importTo().host} < ${createFile}`))
